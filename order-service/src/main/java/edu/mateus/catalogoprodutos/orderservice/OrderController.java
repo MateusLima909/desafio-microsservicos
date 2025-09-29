@@ -3,7 +3,6 @@ package edu.mateus.catalogoprodutos.orderservice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.beans.ConstructorProperties;
 import java.util.List;
 import java.util.stream.Collectors;
 
