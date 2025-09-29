@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  discovery-service:
+    build: ./discovery-service
+    container_name: discovery-service
+    ports:
+      - "8761:8761"
+  product-service:
+    build: ./product-service
+    container_name: product-service
+    ports:
+      - "8100:8100"
+
+    depends_on:
+      - discovery-service
+  order-service:
+    build: ./order-service
+    container_name: order-service
+    ports:
+      - "8200:8200"
+
+    # Isso garante que o Docker Compose vai iniciar e esperar o 
+    # discovery-service ficar pronto ANTES de tentar iniciar o product-service.
+    depends_on:
+      - discovery-service
+      - product-service
