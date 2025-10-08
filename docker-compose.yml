@@ -25,3 +25,14 @@ services:
     depends_on:
       - discovery-service
       - product-service
+
+  api-gateway:
+    build: ./api-gateway
+    container_name: api-gateway
+    ports:
+      - "8765:8765"
+      
+    depends_on:
+      - discovery-service
+      - product-service
+      - order-service

@@ -1,0 +1,40 @@
+# Porta do nosso portão de entrada
+server:
+  port: 8765
+
+# Nome para registro no Eureka
+spring:
+  application:
+    name: API-GATEWAY
+
+  cloud:
+    gateway:
+      # Habilita a integração com o Eureka para encontrar os serviços dinamicamente
+      discovery:
+        locator:
+          enabled: true
+      
+      # Nossas regras de roteamento
+      routes:
+        # Rota 1: para o serviço de produtos
+        - id: product-service-route
+          # uri: A mágica acontece aqui! "lb" significa "Load Balancer" (Balanceador de Carga).
+          # "lb://PRODUCT-SERVICE" diz: "Pergunte ao Eureka onde está o PRODUCT-SERVICE e mande a requisição para lá"
+          uri: lb://PRODUCT-SERVICE
+          predicates:
+            # Predicate: A condição para usar essa rota.
+            # "Path=/products/**" significa: "Se a URL que chegou começar com /products, use esta rota"
+            - Path=/products/**
+
+        # Rota 2: para o serviço de pedidos
+        - id: order-service-route
+          uri: lb://ORDER-SERVICE
+          predicates:
+            # "Se a URL começar com /orders, mande para o order-service"
+            - Path=/orders/**
+
+# Endereço do Eureka (o mesmo de sempre)
+eureka:
+  client:
+    service-url:
+      defaultZone: http://discovery-service:8761/eureka/
