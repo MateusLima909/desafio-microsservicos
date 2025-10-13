@@ -1,40 +1,80 @@
-# Porta do nosso portão de entrada
 server:
   port: 8765
 
-# Nome para registro no Eureka
+  forward-headers-strategy: framework
+
 spring:
   application:
-    name: API-GATEWAY
+    name: api-gateway
 
   cloud:
     gateway:
-      # Habilita a integração com o Eureka para encontrar os serviços dinamicamente
+      # DESLIGAMOS o roteador automático para ter controle total
       discovery:
         locator:
-          enabled: true
-      
-      # Nossas regras de roteamento
+          enabled: false
+
+      # ⚙️ Preserva cabeçalhos sensíveis como Authorization
+      default-filters:
+        - PreserveHostHeader
+      forwarded-headers-strategy: native
+      httpclient:
+        wiretap: true
+      filter:
+        remove-hop-by-hop: false
+
+      # DEFINIMOS TODAS AS NOSSAS ROTAS MANUALMENTE
       routes:
-        # Rota 1: para o serviço de produtos
-        - id: product-service-route
-          # uri: A mágica acontece aqui! "lb" significa "Load Balancer" (Balanceador de Carga).
-          # "lb://PRODUCT-SERVICE" diz: "Pergunte ao Eureka onde está o PRODUCT-SERVICE e mande a requisição para lá"
+        # --- Rota para a API de Produtos ---
+        - id: product-service-api
           uri: lb://PRODUCT-SERVICE
           predicates:
-            # Predicate: A condição para usar essa rota.
-            # "Path=/products/**" significa: "Se a URL que chegou começar com /products, use esta rota"
-            - Path=/products/**
+            # A URL que o cliente usará será: /produtos
+            - Path=/produtos/**
+          filters:
+            # (Opcional) Loga requisições para debug
+            - AddRequestHeader=X-Debug, ProductRoute
+            # (Opcional) Mantém o header Authorization
+            - PreserveHostHeader
 
-        # Rota 2: para o serviço de pedidos
-        - id: order-service-route
+        # --- Rota para a API de Pedidos ---
+        - id: order-service-api
           uri: lb://ORDER-SERVICE
           predicates:
-            # "Se a URL começar com /orders, mande para o order-service"
-            - Path=/orders/**
+            # A URL que o cliente usará será: /pedidos
+            - Path=/pedidos/**
+          filters:
+            - AddRequestHeader=X-Debug, OrderRoute
+            - PreserveHostHeader
 
-# Endereço do Eureka (o mesmo de sempre)
+        # --- Rota para a DOCUMENTAÇÃO de Produtos ---
+        - id: product-service-docs
+          uri: lb://PRODUCT-SERVICE
+          predicates:
+            - Path=/v3/api-docs/product-service
+          filters:
+            - RewritePath=/v3/api-docs/product-service, /v3/api-docs
+
+        # --- Rota para a DOCUMENTAÇÃO de Pedidos ---
+        - id: order-service-docs
+          uri: lb://ORDER-SERVICE
+          predicates:
+            - Path=/v3/api-docs/order-service
+          filters:
+            - RewritePath=/v3/api-docs/order-service, /v3/api-docs
+
+springdoc:
+  swagger-ui:
+    urls:
+      - name: Product Service
+        url: /v3/api-docs/product-service
+      - name: Order Service
+        url: /v3/api-docs/order-service
+
 eureka:
   client:
     service-url:
       defaultZone: http://discovery-service:8761/eureka/
+    fail-fast: false
+  instance:
+    prefer-ip-address: true

@@ -23,10 +23,11 @@ ext {
 
 // Lista de compras do Porteiro
 dependencies {
-    // A ferramenta principal do Spring Cloud Gateway
+    
     implementation 'org.springframework.cloud:spring-cloud-starter-gateway'
-    // A ferramenta para ele se registrar e encontrar os outros no Eureka
     implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springdoc:springdoc-openapi-starter-webflux-ui:2.5.0'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }

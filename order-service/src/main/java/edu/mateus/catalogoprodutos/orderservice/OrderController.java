@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/orders")
+@RequestMapping("/pedidos")
 public class OrderController {
 
     private final ProductClient productClient;
@@ -17,7 +17,7 @@ public class OrderController {
         this.productClient = productClient;
     }
 
-    @PostMapping("/simulate")
+    @PostMapping("/simular")
     public String simulateOrder(@RequestBody List<Long> productIds) {
         
         List<ProductDTO> allProducts = productClient.getAllProducts();
