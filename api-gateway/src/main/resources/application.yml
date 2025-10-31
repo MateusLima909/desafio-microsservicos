@@ -78,3 +78,7 @@ eureka:
     fail-fast: false
   instance:
     prefer-ip-address: true
+
+app:
+  jwt:
+    secret: "minha-chave-secreta-super-longa-e-segura-para-o-desafio-123456"

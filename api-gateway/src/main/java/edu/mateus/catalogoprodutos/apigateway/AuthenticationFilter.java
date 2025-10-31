@@ -16,7 +16,11 @@ import java.util.List;
 public class AuthenticationFilter implements GlobalFilter, Ordered {
 
     private static final Logger log = LoggerFactory.getLogger(AuthenticationFilter.class);
-    private static final String BEARER_TOKEN = "Bearer meu-token-secreto";
+    private final TokenService tokenService;
+
+    public AuthenticationFilter(TokenService tokenService) {
+        this.tokenService = tokenService;
+    }
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
@@ -24,7 +28,8 @@ public class AuthenticationFilter implements GlobalFilter, Ordered {
 
         String path = exchange.getRequest().getURI().getPath();
 
-        if (path.contains("/swagger-ui") || path.contains("/v3/api-docs")) {
+        if (path.contains("/swagger-ui") || path.contains("/v3/api-docs") || path.contains("/api/auth/login")) {
+            log.info("Rota pública. Acesso liberado sem token para: {}", path);
             return chain.filter(exchange);
         }
 
@@ -36,16 +41,28 @@ public class AuthenticationFilter implements GlobalFilter, Ordered {
             return exchange.getResponse().setComplete();
         }
 
-        String token = authHeaders.get(0).trim();
-        log.info("🔑 Header Authorization recebido: {}", token);
+        String authHeader = authHeaders.get(0).trim();
 
-        if (!token.equalsIgnoreCase(BEARER_TOKEN)) {
-            log.warn("🚫 Token inválido! Esperado: '{}', Recebido: '{}'", BEARER_TOKEN, token);
+        if (!authHeader.startsWith("Bearer ")) {
+            log.warn("🚫 Header Authorization inválido! Não começa com 'Bearer '");
             exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
             return exchange.getResponse().setComplete();
         }
 
-        log.info("✅ Token válido! Acesso liberado para {}", path);
+        String token = authHeader.substring(7);
+        String username = tokenService.validateToken(token);
+
+        if (username == null) {
+            log.warn("🚫 Token JWT inválido ou expirado!");
+            exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
+            return exchange.getResponse().setComplete();
+        }
+
+        exchange.getRequest().mutate()
+                .header("X-Authenticated-User", username)
+                .build();
+
+        log.info("✅ Token JWT válido! Usuário: {}. Acesso liberado para {}", username, path);
         return chain.filter(exchange);
     }
 
