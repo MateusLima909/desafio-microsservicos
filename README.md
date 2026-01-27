@@ -1,106 +1,99 @@
-# Desafio de Microsserviços NTT DATA - Catálogo de Produtos
+# 🚀 Desafio NTT DATA - Microservices Architecture
 
-Este repositório contém a implementação do Desafio Técnico de Microsserviços proposto pela [Digital Innovation One (DIO)](https://dio.me/) em parceria com a [NTT DATA](https://www.nttdata.com/).
+> **Sistema robusto de gestão de pedidos e catálogo utilizando arquitetura de microsserviços, Spring Cloud e orquestração via Docker.**
 
-O objetivo do projeto é desenvolver um sistema simples de gestão de pedidos com catálogo de produtos, utilizando uma arquitetura de microsserviços com o ecossistema Spring e containerização com Docker.
+![Java](https://img.shields.io/badge/Java-21-ED8B00)
+![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.3-6DB33F)
+![Spring Cloud](https://img.shields.io/badge/Spring_Cloud-Gateway-6DB33F)
+![Docker](https://img.shields.io/badge/Docker-Compose-2496ED)
+![Status do Projeto](https://img.shields.io/badge/Status-Em_Desenvolvimento-yellow)
 
-## 🚀 Conceitos Aplicados
-Este projeto foi uma oportunidade para aplicar e aprofundar conhecimentos em conceitos fundamentais de arquiteturas distribuídas modernas, incluindo:
-- **Arquitetura de Microsserviços:** Divisão do sistema em serviços menores, independentes e coesos.
-- **Service Discovery:** Registro e descoberta automática dos serviços na rede utilizando Eureka Server.
-- **API Gateway:** Implementação de um ponto de entrada único para a aplicação (`Spring Cloud Gateway`), responsável pelo roteamento e centralização da segurança.
-- **Segurança de API:** Proteção de todos os endpoints com `Spring Security` e validação de `Bearer Token` através de um filtro global.
-- **Comunicação entre Serviços:** Comunicação síncrona via requisições HTTP, facilitada pelo OpenFeign.
-- **Documentação de API:** Geração e agregação de documentação de todos os microsserviços no Gateway com `SpringDoc-OpenAPI (Swagger)`.
-- **Gestão de CORS:** Configuração de Cross-Origin Resource Sharing para permitir a comunicação entre o front-end (e o Swagger UI) e o back-end.
-- **Containerização:** Empacotamento e orquestração de toda a aplicação com Docker e Docker Compose, garantindo portabilidade e um ambiente de desenvolvimento consistente.
-- **Princípios de API REST:** Construção de endpoints seguindo as melhores práticas do modelo REST.
-- **Arquitetura em Camadas:** Organização interna dos serviços seguindo o padrão Controller-Service-Repository.
+## 📖 Sobre o Projeto
 
-## 🛠️ Tecnologias Utilizadas (Stack)
-- **Linguagem:** Java 21
-- **Framework Principal:** Spring Boot 3.3.2
-- **Ecossistema Spring Cloud (2023.0.2):**
-  - **Spring Cloud Gateway:** Ponto de entrada único da aplicação.
-  - **Spring Cloud Netflix Eureka:** Para Service Discovery.
-  - **Spring Cloud OpenFeign:** Para comunicação declarativa entre APIs REST.
-- **Segurança:**
-  - **Spring Boot Security:** Para a camada de segurança (filtro no Gateway, desativação de CSRF nos serviços).
-- **Documentação:**
-  - **SpringDoc-OpenAPI (Swagger):** Para documentação e agregação da API.
-- **Persistência de Dados:**
-  - Spring Data JPA
-  - H2 Database (banco de dados em memória)
-- **Build Tool:** Gradle
-- **Containerização:**
-  - Docker
-  - Docker Compose
+Este projeto é a implementação do Desafio Técnico proposto pela **NTT DATA** em parceria com a **DIO**.
 
-## 📊 Progresso Atual
+O objetivo foi desenvolver um ecossistema completo de microsserviços para gestão de produtos e simulação de pedidos. O foco principal não é apenas o CRUD, mas a **infraestrutura arquitetural**: como os serviços se descobrem, como se comunicam e como são protegidos.
 
-Até o momento, a arquitetura de microsserviços foi **totalmente implementada** e está 100% funcional. Todos os serviços, incluindo o API Gateway e a camada de segurança extra, estão operacionais e orquestrados com o Docker Compose.
+### ✨ Conceitos Chave Aplicados
 
-### Microsserviços Concluídos:
+* **Service Discovery:** Registro dinâmico de serviços com *Eureka Server*.
+* **API Gateway:** Ponto único de entrada e roteamento inteligente.
+* **Comunicação Síncrona:** Uso de *OpenFeign* para comunicação entre APIs.
+* **Segurança Centralizada:** Validação de Token no Gateway.
+* **Documentação Unificada:** Agregação de Swagger UI no Gateway.
 
-#### 1. `discovery-service` (Eureka Server)
-- **Status:** ✅ Concluído e operacional.
-- **Descrição:** Atua como o "catálogo telefônico" da nossa arquitetura. Todos os outros serviços se registram nele ao iniciar, permitindo que se encontrem dinamicamente na rede.
+---
 
-#### 2. `product-service` (Microsserviço de Catálogo de Produtos)
-- **Status:** ✅ Concluído e operacional.
-- **Descrição:** Responsável por gerenciar o CRUD de produtos. Segue uma arquitetura interna Controller-Service-Repository e utiliza Spring Data JPA com um banco H2 para persistência dos dados.
+## 🏗️ Arquitetura dos Serviços
 
-#### 3. `order-service` (Microsserviço de Simulação de Pedidos)
-- **Status:** ✅ Concluído e operacional.
-- **Descrição:** Responsável por simular a criação de um pedido. Este serviço demonstra a comunicação entre microsserviços, utilizando **OpenFeign** para chamar a API do `product-service`, buscar os produtos por ID e calcular o valor total do pedido.
+O sistema é composto por 4 contêineres orquestrados:
 
-#### 4. `api-gateway` (Gateway da Aplicação)
-- **Status:** ✅ Concluído e operacional.
-- **Descrição:** Atua como a porta de entrada única (porta `8765`). Roteia requisições para os serviços corretos, agrega a documentação Swagger e protege *todos* os endpoints com um filtro de segurança (`AuthenticationFilter`) que valida um `Bearer Token` estático.
+1.  **`discovery-service` (Eureka Server):** O "catálogo telefônico" onde todos os microsserviços se registram.
+2.  **`api-gateway` (Porta 8765):** A porta de entrada. Gerencia roteamento, segurança e documentação.
+3.  **`product-service`:** Gerencia o catálogo de produtos (Persistência em H2).
+4.  **`order-service`:** Simula pedidos e consome o `product-service` para buscar detalhes dos itens.
 
-### Orquestração com Docker
-- **Status:** ✅ Concluído.
-- **Descrição:** Todos os **quatro** serviços foram containerizados utilizando `Dockerfile`. Um arquivo `docker-compose.yml` foi configurado para orquestrar a inicialização, a rede e as dependências entre os contêineres, permitindo que toda a arquitetura seja iniciada com um único comando.
+---
 
-## 🎯 Próximos Passos
-Com a arquitetura principal e a segurança base concluídas, o plano agora foca em profissionalizar a solução:
+## 🛠️ Tecnologias Utilizadas
 
-1.  **Refatoração da Segurança (JWT):**
-    - Substituir o `Bearer Token` estático por um sistema de autenticação dinâmico baseado em **JWT (JSON Web Tokens)**.
-    - Isso envolverá a criação de um `auth-service` (ou um endpoint em um serviço existente) para `login` e geração de tokens.
+* **Linguagem:** Java 21
+* **Framework:** Spring Boot 3.3.2
+* **Ecossistema Cloud:** Spring Cloud Gateway, Netflix Eureka, OpenFeign
+* **Build Tool:** Gradle
+* **Containerização:** Docker & Docker Compose
+* **Banco de Dados:** H2 Database (In-Memory)
+* **Documentação:** SpringDoc OpenAPI (Swagger)
 
-2.  **Implementação do Front-End:**
-    - Criar a interface de usuário (React, Angular, Vue, etc.) que consumirá a API, agora segura, através do API Gateway.
+---
 
-## ⚙️ Como Executar o Projeto
+## 🚀 Como Executar o Projeto
 
-**Pré-requisitos:**
-- Git
-- Docker e Docker Compose
+### Pré-requisitos
 
-**Passos:**
-1.  Clone o repositório:
+* Docker e Docker Compose instalados.
+* Git instalado.
+
+### Passo a Passo
+
+1.  **Clone o repositório:**
     ```bash
-    git clone [https://github.com/MateusLima909/desafio-microsservicos/](https://github.com/MateusLima909/desafio-microsservicos/)
-    ```
-2.  Navegue para a pasta do projeto:
-    ```bash
+    git clone https://github.com/MateusLima909/desafio-microsservicos.git
     cd desafio-microsservicos
     ```
-3.  Execute o Docker Compose para construir as imagens e iniciar todos os contêineres:
+
+2.  **Suba a infraestrutura (Docker):**
     ```bash
     docker-compose up --build
     ```
-    *(Use `-d` para executar em segundo plano)*
+    *(Aguarde até que todos os serviços estejam registrados no Eureka)*
 
-4.  **Verificação:**
-    - **Painel do Eureka:** Acesse `http://localhost:8761` para ver os serviços `API-GATEWAY`, `PRODUCT-SERVICE` e `ORDER-SERVICE` registrados.
-    - **Documentação da API (Swagger):** Acesse `http://localhost:8765/swagger-ui.html`. Este é o ponto de entrada principal para visualizar todas as APIs.
+3.  **Verifique o Status:**
+    * **Eureka Dashboard:** `http://localhost:8761`
+    * **Swagger Unificado:** `http://localhost:8765/swagger-ui.html`
 
-5.  **Testando a API (Importante!):**
-    - Todas as requisições devem ser feitas através do **API Gateway** na porta `8765`. O acesso direto aos serviços (portas 8100, 8200) não funcionará.
-    - Todos os endpoints (exceto o Swagger) exigem autenticação.
-    - Use o **Postman** ou outra ferramenta de API (o "Execute" do Swagger UI pode falhar com `POST`/`PUT`/`DELETE` em alguns ambientes como o Codespaces devido a regras de CORS/Proxy).
-    - **Token de Autenticação:** Adicione o seguinte *Header* em suas requisições:
-      - **Key:** `Authorization`
-      - **Value:** `Bearer meu-token-secreto`
+### 🔐 Autenticação (Importante!)
+
+O sistema possui uma camada de segurança. Para testar os endpoints (POST, PUT, DELETE), você deve incluir o token no Header da requisição:
+
+* **Key:** `Authorization`
+* **Value:** `Bearer meu-token-secreto`
+
+---
+
+## 🗺️ Roadmap (Próximos Passos)
+
+- [ ] **Segurança Avançada:** Migrar do token estático para autenticação dinâmica com **JWT** e OAuth2.
+- [ ] **Front-end:** Implementar uma interface visual para consumo das APIs.
+- [x] **Containerização:** Orquestração completa com Docker Compose.
+- [x] **Gateway:** Implementação de filtro global de segurança.
+
+---
+
+## 🤝 Contribuição
+
+Sugestões e melhorias arquiteturais são bem-vindas!
+
+## 📝 Autor
+
+Desenvolvido por **[Mateus Lima](https://www.linkedin.com/in/mateuslima-santos)**.
