@@ -22,6 +22,10 @@ public class ProductService {
     }
 
     public Product create(Product product) {
+        if (product.getPrice() < 0) {
+            throw new IllegalArgumentException("Preço inválido! O valor não pode ser menor que 0!");
+        }
+
         return repository.save(product);
     }
 
@@ -30,6 +34,7 @@ public class ProductService {
 
         product.setName(productDetails.getName());
         product.setPrice(productDetails.getPrice());
+        product.setStock(productDetails.getStock());
 
         return repository.save(product);
     }

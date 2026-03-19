@@ -9,4 +9,8 @@ public interface ProductClient {
 
     @GetMapping("/produtos")
     List<ProductDTO> getAllProducts();
+
+    @GetMapping("/produtos/{id}")
+    ProductDTO findById(@PathVariable("id") Long id);
+    
 }
