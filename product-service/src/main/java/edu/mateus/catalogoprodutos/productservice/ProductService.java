@@ -43,4 +43,18 @@ public class ProductService {
         Product product = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Produto não encontrado!"));
         repository.delete(product);
     }
+
+    public Product updateStockTimePurchase(Long id, Integer quantity) {
+        Product product = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Produto não encontrado!"));
+        
+        int newStock = product.getStock() - quantity;
+
+        if (newStock < 0) {
+            throw new IllegalArgumentException("Estoque insuficiente para o produto: " + product.getName());
+        }
+
+        product.setStock(newStock);
+
+        return repository.save(product);
+    }
 }

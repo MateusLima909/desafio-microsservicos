@@ -13,11 +13,9 @@ public class CorsGlobalConfiguration {
     public CorsWebFilter corsWebFilter() {
         CorsConfiguration config = new CorsConfiguration();
 
-        // ⚙️ Libera seu codespace e o Swagger
-        config.addAllowedOriginPattern("https://*.github.dev");
-        config.addAllowedOriginPattern("https://*-8765.app.github.dev");
+        config.addAllowedOriginPattern("https://localhost:4200");
+        config.addAllowedOriginPattern("https://localhost:3000");
 
-        // ⚙️ Libera headers e métodos
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
         config.setAllowCredentials(false);

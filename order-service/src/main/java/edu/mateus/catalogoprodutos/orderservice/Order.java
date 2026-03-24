@@ -36,4 +36,10 @@ public class Order {
     public LocalDateTime getTimePurchase() { return timePurchase; }
     public Status getStatus() { return status; }
     public Double getTotalValue() { return totalValue; }
+
+    public void calculateTotalValue() {
+        this.totalValue = items.stream()
+                .mapToDouble(item -> item.getSinglePrice() * item.getQuantity())
+                .sum();
+    }
 }

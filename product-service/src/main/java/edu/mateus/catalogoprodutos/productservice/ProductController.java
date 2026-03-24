@@ -42,5 +42,10 @@ public class ProductController {
     public void deleteProduct(@PathVariable Long id) {
         service.delete(id);
     }
+
+    @PutMapping("/{id}/stock")
+    public Product updateStockTimePurchase(@PathVariable Long id, @RequestParam Integer quantity) {
+        return service.updateStockTimePurchase(id, quantity);
+    }
 }
 
