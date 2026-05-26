@@ -1,0 +1,23 @@
+<h1>Meu Catálogo de Produtos</h1>
+
+<div style="display: flex; gap: 20px; padding: 20px;">
+  
+  @for (produto of produtos(); track produto.id) {
+    <div style="border: 1px solid #ccc; padding: 15px; border-radius: 8px; width: 250px; text-align: center; box-shadow: 2px 2px 8px rgba(0,0,0,0.1);">
+      <h2 style="color: #333; margin-top: 0;">{{ produto.name }}</h2>
+      <p style="font-size: 1.2rem; color: #27ae60; font-weight: bold;">
+        R$ {{ produto.price }}
+      </p>
+      <p style="color: #777;">Estoque: {{ produto.stock }} unidades</p>
+      
+      <button style="background: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; width: 100%;">
+        Adicionar ao Pedido
+      </button>
+    </div>
+  } @empty {
+    <p>Nenhum produto cadastrado no catálogo ainda.</p>
+  }
+
+</div>
+
+<router-outlet></router-outlet>

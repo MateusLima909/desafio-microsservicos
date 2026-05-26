@@ -3,8 +3,7 @@ package edu.mateus.catalogoprodutos.orderservice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import edu.mateus.catalogoprodutos.productservice.Product;
-
+import java.util.List;
 
 @RestController
 @RequestMapping("/pedidos")

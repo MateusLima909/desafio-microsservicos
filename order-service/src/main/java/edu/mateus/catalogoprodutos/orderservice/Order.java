@@ -1,6 +1,7 @@
 package edu.mateus.catalogoprodutos.orderservice;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -41,5 +42,13 @@ public class Order {
         this.totalValue = items.stream()
                 .mapToDouble(item -> item.getSinglePrice() * item.getQuantity())
                 .sum();
+    }
+
+    public String getOrderProtocol() {
+        return orderProtocol;
+    }
+
+    public List<OrderItem> getItems() {
+        return items;
     }
 }

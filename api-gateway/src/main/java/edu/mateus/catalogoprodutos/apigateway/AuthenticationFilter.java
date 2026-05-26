@@ -12,7 +12,7 @@ import reactor.core.publisher.Mono;
 
 import java.util.List;
 
-@Component
+//@Component
 public class AuthenticationFilter implements GlobalFilter, Ordered {
 
     private static final Logger log = LoggerFactory.getLogger(AuthenticationFilter.class);

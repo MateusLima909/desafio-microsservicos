@@ -1,3 +1,5 @@
+package edu.mateus.catalogoprodutos.orderservice;
+
 public enum Status {
     PENDENTE(1),
     PROCESSANDO(2),

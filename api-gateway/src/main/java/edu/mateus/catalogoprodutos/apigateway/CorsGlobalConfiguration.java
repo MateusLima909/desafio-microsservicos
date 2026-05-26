@@ -13,8 +13,8 @@ public class CorsGlobalConfiguration {
     public CorsWebFilter corsWebFilter() {
         CorsConfiguration config = new CorsConfiguration();
 
-        config.addAllowedOriginPattern("https://localhost:4200");
-        config.addAllowedOriginPattern("https://localhost:3000");
+        config.addAllowedOriginPattern("http://localhost:4200");
+        config.addAllowedOriginPattern("http://localhost:3000");
 
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");

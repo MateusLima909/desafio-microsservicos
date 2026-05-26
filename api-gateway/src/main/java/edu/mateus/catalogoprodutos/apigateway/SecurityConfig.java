@@ -8,7 +8,7 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 
-@Configuration 
+@Configuration
 @EnableWebFluxSecurity
 public class SecurityConfig {
 

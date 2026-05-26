@@ -37,7 +37,7 @@ public class TokenService {
                         .setExpiration(expiryDate)
                         .signWith(key)
                         .compact();
-                    
+
         log.info("Token gerado para o usuário: {}", username);
         return token;
     }
