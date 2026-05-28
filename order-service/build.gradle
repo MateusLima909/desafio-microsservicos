@@ -21,7 +21,6 @@ ext {
     set('springCloudVersion', "2023.0.2")
 }
 
-// A "Lista de Compras" do serviço de pedidos
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web' 
     implementation 'org.springframework.boot:spring-boot-starter-security'

@@ -17,13 +17,11 @@ public class SecurityConfig {
         return http
                 .cors(Customizer.withDefaults())
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
-                .httpBasic(ServerHttpSecurity.HttpBasicSpec::disable) // Desabilita o pop-up
-                .formLogin(ServerHttpSecurity.FormLoginSpec::disable) // Desabilita a página de login
+                .httpBasic(ServerHttpSecurity.HttpBasicSpec::disable)
+                .formLogin(ServerHttpSecurity.FormLoginSpec::disable)
                 .authorizeExchange(exchange -> exchange
                         .pathMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                        // Permite acesso irrestrito a todas as URLs necessárias para o Swagger UI
-                        .pathMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**", "/webjars/**").permitAll()
-                        // Exige autenticação (e o nosso filtro vai agir) para qualquer outra requisição
+                        .pathMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**", "/webjars/**").permitAll()     
                         .anyExchange().permitAll()
                 )
                 .build();

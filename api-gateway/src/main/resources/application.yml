@@ -9,12 +9,10 @@ spring:
 
   cloud:
     gateway:
-      # DESLIGAMOS o roteador automático para ter controle total
       discovery:
         locator:
           enabled: false
 
-      # ⚙️ Preserva cabeçalhos sensíveis como Authorization
       default-filters:
         - PreserveHostHeader
       forwarded-headers-strategy: native
@@ -23,31 +21,23 @@ spring:
       filter:
         remove-hop-by-hop: false
 
-      # DEFINIMOS TODAS AS NOSSAS ROTAS MANUALMENTE
       routes:
-        # --- Rota para a API de Produtos ---
         - id: product-service-api
           uri: lb://PRODUCT-SERVICE
           predicates:
-            # A URL que o cliente usará será: /produtos
             - Path=/produtos/**
           filters:
-            # (Opcional) Loga requisições para debug
             - AddRequestHeader=X-Debug, ProductRoute
-            # (Opcional) Mantém o header Authorization
             - PreserveHostHeader
 
-        # --- Rota para a API de Pedidos ---
         - id: order-service-api
           uri: lb://ORDER-SERVICE
           predicates:
-            # A URL que o cliente usará será: /pedidos
             - Path=/pedidos/**
           filters:
             - AddRequestHeader=X-Debug, OrderRoute
             - PreserveHostHeader
 
-        # --- Rota para a DOCUMENTAÇÃO de Produtos ---
         - id: product-service-docs
           uri: lb://PRODUCT-SERVICE
           predicates:
@@ -55,7 +45,6 @@ spring:
           filters:
             - RewritePath=/v3/api-docs/product-service, /v3/api-docs
 
-        # --- Rota para a DOCUMENTAÇÃO de Pedidos ---
         - id: order-service-docs
           uri: lb://ORDER-SERVICE
           predicates:
