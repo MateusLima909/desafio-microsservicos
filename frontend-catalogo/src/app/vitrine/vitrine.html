@@ -1,0 +1,58 @@
+<!-- HERO -->
+  <section class="hero">
+    <div class="hero-content">
+      <span class="tag">Áudio Premium</span>
+      <h1>O timbre perfeito para o seu som.</h1>
+      <p>Catálogo completo com as melhores guitarras, peças de bateria, pedais de efeito e equipamentos de áudio para palco e estúdio.</p>
+      <button>Explorar Instrumentos</button>
+    </div>
+  </section>
+
+  <!-- CATEGORIAS -->
+<section class="categorias">
+    <div class="categoria" [class.active]="activeCategory() === 'Todos'" (click)="changeCategory('Todos')">
+      Todos
+    </div>
+    <div class="categoria" [class.active]="activeCategory() === 'Guitarras'" (click)="changeCategory('Guitarras')">
+      Guitarras
+    </div>
+    <div class="categoria" [class.active]="activeCategory() === 'Baterias'" (click)="changeCategory('Baterias')">
+      Baterias
+    </div>
+    <div class="categoria" [class.active]="activeCategory() === 'Pedais & Efeitos'" (click)="changeCategory('Pedais & Efeitos')">
+      Pedais & Efeitos
+    </div>
+    <div class="categoria" [class.active]="activeCategory() === 'Áudio Pro'" (click)="changeCategory('Áudio Pro')">
+      Áudio Pro
+    </div>
+  </section>
+
+  <!-- PRODUTOS -->
+  <section class="catalogo">
+    @for (product of filteredProducts(); track product.id) {
+      <div class="card">
+        <div class="image-area" [routerLink]="['/product', product.id]" style="cursor: pointer;">
+          <img [src]="product.image" [alt]="product.name">
+        </div>
+
+        <div class="card-content">
+          <span class="stock">{{ product.stock }} em estoque</span>
+          <h2 [routerLink]="['/product', product.id]" style="cursor: pointer;">
+            {{ product.name }}
+          </h2>
+          <p class="descricao">Produto premium com alta qualidade e excelente desempenho.</p>
+
+          <div class="bottom">
+            <div>
+              <span class="old-price">R$ 499</span>
+              <p class="price">R$ {{ product.price }}</p>
+            </div>
+            
+            <button (click)="cartService.addToCart(product)">
+              + Adicionar 🛒
+            </button>
+          </div>
+        </div>
+      </div>
+    }
+  </section>

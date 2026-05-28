@@ -1,23 +1,62 @@
-<h1>Meu Catálogo de Produtos</h1>
+<div class="page">
 
-<div style="display: flex; gap: 20px; padding: 20px;">
-  
-  @for (produto of produtos(); track produto.id) {
-    <div style="border: 1px solid #ccc; padding: 15px; border-radius: 8px; width: 250px; text-align: center; box-shadow: 2px 2px 8px rgba(0,0,0,0.1);">
-      <h2 style="color: #333; margin-top: 0;">{{ produto.name }}</h2>
-      <p style="font-size: 1.2rem; color: #27ae60; font-weight: bold;">
-        R$ {{ produto.price }}
-      </p>
-      <p style="color: #777;">Estoque: {{ produto.stock }} unidades</p>
-      
-      <button style="background: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; width: 100%;">
-        Adicionar ao Pedido
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="logo">PEC<span>Store</span></div>
+    <div class="nav-actions">
+      <input type="text" placeholder="Buscar produtos..." class="search">
+      <button class="cart-btn" (click)="cartService.toggleCart()">
+        🛒 Carrinho ({{ cartService.cartCount() }})
       </button>
     </div>
-  } @empty {
-    <p>Nenhum produto cadastrado no catálogo ainda.</p>
-  }
+  </nav>
 
-</div>
+  <router-outlet></router-outlet>
 
-<router-outlet></router-outlet>
+  <footer class="footer">
+    <p>&copy; 2026 PECStore. Todos os direitos reservados.</p>
+  </footer>
+
+  <div class="cart-overlay" [class.open]="cartService.isCartOpen()">
+    
+    <div class="backdrop" (click)="cartService.toggleCart()"></div>
+
+    <div class="cart-sidebar">
+      <div class="cart-header">
+        <h2>Seu Carrinho</h2>
+        <button class="close-btn" (click)="cartService.toggleCart()">✖</button>
+      </div>
+
+      <div class="cart-items">
+        @for (item of cartService.cart(); track item.id) {
+          <div class="cart-item">
+            <img [src]="item.image" [alt]="item.name">
+            <div class="item-info">
+              <p>R$ {{ item.price }}</p>
+              <h4>{{ item.name }}</h4>  
+              <div class="quantity">
+                <button>-</button>
+                <span>1</span>
+                <button>+</button>
+              </div>
+            </div>
+          </div>
+        }
+        
+        @if (cartService.cart().length === 0) {
+          <p class="empty-cart">Seu carrinho está vazio no momento.</p>
+        }
+      </div>
+
+      <div class="cart-footer">
+        <div class="total-line">
+          <span>Subtotal</span>
+          <h3>R$ {{ cartService.cartTotal() }}</h3>
+        </div>
+        <button class="checkout-btn">Finalizar Compra</button>
+      </div>
+    </div>
+    
+  </div>
+
+</div> 
