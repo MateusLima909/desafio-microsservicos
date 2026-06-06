@@ -1,22 +1,21 @@
-/* ========================
-   PÁGINA DE DETALHES
-   ======================== */
-
+/* =========================================
+   1. CONTAINER E NAVEGAÇÃO
+   ========================================= */
 .details-container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 40px 20px;
+  padding: 10px 20px 40px 20px;
   color: #CCD0CF;
 }
 
 .back-area {
-  margin-bottom: 30px;
+  margin-bottom: 25px;
 }
 
 .back-link {
   color: #9BA8AB;
   text-decoration: none;
-  font-size: 1.1rem;
+  font-size: 0.95rem;
   transition: color 0.3s ease;
   display: inline-flex;
   align-items: center;
@@ -27,200 +26,233 @@
   color: #FFFFFF;
 }
 
-.product-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 60px;
+/* =========================================
+   2. LAYOUT PRINCIPAL (DUAS COLUNAS)
+   ========================================= */
+.ml-layout {
+  display: flex;
+  gap: 30px;
+  align-items: flex-start; 
+}
+
+.left-column {
+  flex: 1.8;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.right-column {
+  flex: 1;
   background: #11212D;
-  border-radius: 28px;
-  padding: 40px;
+  padding: 30px;
+  border-radius: 16px;
   border: 1px solid rgba(255, 255, 255, 0.05);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  position: sticky; 
+  top: 30px;
 }
 
+/* =========================================
+   3. COLUNA ESQUERDA (IMAGEM E DESCRIÇÃO)
+   ========================================= */
 .product-image {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 28px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 16px;
   padding: 40px;
-  overflow: hidden;
-  background:
-    radial-gradient( circle at top, #253745, #11212D);
-    border:1px solid rgba(255,255,255,0.04);
-}
-
-
-.product-image::before {
-  content: "";
-  position: absolute;
-  width: 300px;
-  height: 300px;
-  background:rgba(255,255,255,0.04);
-  border-radius: 50%;
-  filter: blur(40px);
-  z-index: 1;
+  display: flex;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .product-image img {
-  position: relative;
-  z-index: 2;
-  transition: 0.5s ease;
+  width: 100%;
+  max-width: 500px;
+  object-fit: cover;
+  border-radius: 8px;
 }
 
-.product-image:hover img {
-  transform:
-    scale(1.05)
-    rotate(-2deg);
+.detailed-specs {
+  background: #11212D;
+  padding: 30px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-.product-info {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.category-tag {
-  display: inline-block;
-  background: rgba(255, 255, 255, 0.1);
-  padding: 6px 14px;
-  border-radius: 20px;
-  font-size: 0.85rem;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-bottom: 20px;
-  align-self: flex-start;
+.detailed-specs h2 {
   color: #FFFFFF;
-}
-
-.product-info h1 {
-  font-size: 2.8rem;
-  color: #FFFFFF;
-  margin-bottom: 10px;
-  line-height: 1.2;
-}
-
-.price {
-  font-size: 2.2rem;
-  font-weight: bold;
-  color: #FFFFFF;
-  margin-bottom: 40px;
-}
-
-.specs {
-  margin-bottom: 40px;
-  flex-grow: 1;
-}
-
-.specs h3 {
-  font-size: 1.2rem;
-  color: #FFFFFF;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
+  font-size: 1.4rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   padding-bottom: 10px;
 }
 
-.specs ul {
+.detailed-specs p {
+  line-height: 1.7;
+  color: #9BA8AB;
+}
+
+/* =========================================
+   4. COLUNA DIREITA (TÍTULO E PREÇO)
+   ========================================= */
+.category-tag {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 15px;
+  color: #FFFFFF;
+}
+
+.desktop-title {
+  font-size: 1.8rem;
+  color: #FFFFFF;
+  margin-bottom: 15px;
+  line-height: 1.2;
+}
+
+.mobile-title {
+  display: none; 
+}
+
+.price {
+  font-size: 2.4rem;
+  font-weight: bold;
+  color: #FFFFFF;
+  margin-bottom: 25px;
+}
+
+/* =========================================
+   5. ESPECIFICAÇÕES RESUMIDAS E COMPRA
+   ========================================= */
+.short-specs {
+  margin-bottom: 25px;
+}
+
+.short-specs h3 {
+  font-size: 1rem;
+  color: #FFFFFF;
+  margin-bottom: 10px;
+}
+
+.short-specs ul {
   list-style-type: none;
   padding: 0;
 }
 
-.specs li {
-  margin-bottom: 12px;
+.short-specs li {
+  margin-bottom: 8px;
   color: #9BA8AB;
   display: flex;
   align-items: center;
-  font-size: 1.1rem;
+  font-size: 0.9rem;
 }
 
-.specs li::before {
+.short-specs li::before {
   content: '✓';
   color: #CCD0CF;
-  margin-right: 12px;
+  margin-right: 10px;
   font-weight: bold;
-  font-size: 1.2rem;
 }
 
-.buy-btn {
-  background: #CCD0CF;
-  color: #06141B;
-  border: none;
-  padding: 20px;
-  border-radius: 14px;
-  font-size: 1.3rem;
+.purchase-box {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.info-item {
+  display: flex;
+  gap: 15px;
+  align-items: flex-start;
+}
+
+.info-item .icon {
+  font-size: 1.5rem;
+}
+
+.info-item strong {
+  color: #FFFFFF;
+  display: block;
+  font-size: 0.95rem;
+  margin-bottom: 2px;
+}
+
+.info-item p {
+  color: #9BA8AB;
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+/* =========================================
+   6. BOTÕES DE AÇÃO (EMPILHADOS)
+   ========================================= */
+.action-buttons-stacked {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 30px;
+}
+
+.buy-now-btn, .add-btn {
+  width: 100%;
+  padding: 16px;
+  border-radius: 12px;
+  font-size: 1.1rem;
   font-weight: bold;
   cursor: pointer;
   transition: all 0.3s ease;
-  width: 100%;
+}
+
+.buy-now-btn {
+  background: #CCD0CF;
+  color: #06141B;
+  border: none;
   text-transform: uppercase;
-  letter-spacing: 1px;
 }
 
-.buy-btn:hover {
+.buy-now-btn:hover {
   background: #FFFFFF;
-  transform: translateY(-3px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
 }
 
-/* ========================
-   INFO CARDS
-======================== */
-
-.purchase-info {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-
-  margin-bottom: 40px;
+.add-btn {
+  background: rgba(37, 55, 69, 0.5);
+  color: #CCD0CF;
+  border: 1px solid #CCD0CF;
 }
 
-.info-card {
-  background:
-    linear-gradient(
-      135deg,
-      rgba(255,255,255,0.04),
-      rgba(255,255,255,0.02)
-    );
-
-  border:
-    1px solid rgba(255,255,255,0.04);
-
-  border-radius: 18px;
-
-  padding: 16px 18px;
-
-  transition: 0.3s ease;
+.add-btn:hover {
+  background: rgba(204, 208, 207, 0.1);
 }
 
-.info-card:hover {
-  transform: translateX(4px);
-
-  border-color:
-    rgba(255,255,255,0.08);
-}
-
-.info-card span {
-  display: block;
-
-  font-weight: bold;
-  color: white;
-
-  margin-bottom: 6px;
-}
-
-.info-card p {
-  color: #9BA8AB;
-}
-
+/* =========================================
+   7. RESPONSIVIDADE
+   ========================================= */
 @media (max-width: 900px) {
-  .product-grid {
-    grid-template-columns: 1fr;
-    gap: 40px;
-    padding: 30px;
+  .ml-layout {
+    flex-direction: column;
   }
   
-  .product-info h1 {
-    font-size: 2rem;
+  .right-column {
+    position: static;
+    width: 100%;
+  }
+
+  .desktop-title {
+    display: none;
+  }
+
+  .mobile-title {
+    display: block;
+    font-size: 1.8rem;
+    color: #FFFFFF;
+    margin-bottom: 20px;
   }
 }

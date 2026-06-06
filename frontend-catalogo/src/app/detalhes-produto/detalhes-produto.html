@@ -5,48 +5,69 @@
       <a routerLink="/" class="back-link">← Voltar para a loja</a>
     </div>
 
-    <div class="product-grid">
+    <div class="ml-layout">
       
-      <div class="product-image">
-        <img [src]="product().image" [alt]="product().name">
-      </div>
-
-      <div class="product-info">
-        <span class="category-tag">{{ product().category }}</span>
-        <h1>{{ product().name }}</h1>
-        <p class="price">R$ {{ product().price }}</p>
-
-        <div class="purchase-info">
-
-          <div class="info-card">
-            <span>🚚 Frete grátis</span>
-            <p>Entrega para todo Brasil</p>
-          </div>
-      
-          <div class="info-card">
-            <span>💳 Parcelamento</span>
-            <p>Em até 12x sem juros</p>
-          </div>
-      
-          <div class="info-card">
-            <span>🛡 Garantia</span>
-            <p>1 ano de cobertura PECStore</p>
-          </div>
-      
+      <div class="left-column">
+        <h1 class="mobile-title">{{ product().name }}</h1>
+        
+        <div class="product-image">
+          <img [src]="product().image" [alt]="product().name">
         </div>
         
-        <div class="specs">
-          <h3>Especificações Técnicas</h3>
+        <div class="detailed-specs">
+          <h2>Descrição do Produto</h2>
+          <p>{{ product().descricao }}</p>
+        </div>
+      </div>
+
+      <div class="right-column">
+        <span class="category-tag">{{ product().category }}</span>
+        <h1 class="desktop-title">{{ product().name }}</h1>
+        <p class="price">R$ {{ product().price }}</p>
+
+        <div class="short-specs">
+          <h3>O que você precisa saber:</h3>
           <ul>
-            <li>Qualidade Premium Garantida</li>
-            <li>Pronto para Palco e Estúdio</li>
-            <li>Garantia PECStore de 1 ano</li>
+            @for (spec of product().specs; track spec) {
+              <li>{{ spec }}</li>
+            }
           </ul>
         </div>
 
-        <button class="buy-btn" (click)="cartService.addToCart(product())">
-          Adicionar ao Carrinho 🛒
-        </button>
+        <div class="purchase-box">
+          <div class="info-item">
+            <span class="icon">🚚</span>
+            <div>
+              <strong>Frete grátis</strong>
+              <p>Entrega para todo Brasil</p>
+            </div>
+          </div>
+          
+          <div class="info-item">
+            <span class="icon">💳</span>
+            <div>
+              <strong>Parcelamento</strong>
+              <p>Em até 12x sem juros</p>
+            </div>
+          </div>
+
+          <div class="info-item">
+            <span class="icon">🛡</span>
+            <div>
+              <strong>Garantia</strong>
+              <p>1 ano de cobertura PECStore</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="action-buttons-stacked">
+          <button class="buy-now-btn" (click)="payNow(product())">
+            Comprar Agora ⚡
+          </button>
+          <button class="add-btn" (click)="cartService.addToCart(product())">
+            Adicionar ao Carrinho 🛒
+          </button>
+        </div>
       </div>
 
     </div>

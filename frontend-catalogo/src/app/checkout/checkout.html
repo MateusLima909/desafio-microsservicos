@@ -1,0 +1,84 @@
+<div class="checkout-container">
+  <div class="back-area">
+    <a routerLink="/" class="back-link">← Continuar comprando</a>
+  </div>
+
+  <div class="checkout-layout">
+    
+    <div class="form-column">
+      <h2>Finalizar Compra</h2>
+      
+      <div class="form-section">
+        <h3>1. Dados de Entrega</h3>
+        <div class="input-group">
+          <input type="text" placeholder="Nome Completo">
+        </div>
+        <div class="input-row">
+          <input type="text" placeholder="CEP">
+          <input type="text" placeholder="Rua/Avenida">
+        </div>
+        <div class="input-row">
+          <input type="text" placeholder="Número">
+          <input type="text" placeholder="Complemento">
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>2. Pagamento</h3>
+        <div class="payment-methods">
+          <label class="pay-method active"><input type="radio" name="pay" checked> Cartão de Crédito</label>
+          <label class="pay-method"><input type="radio" name="pay"> PIX (5% de desconto)</label>
+          <label class="pay-method"><input type="radio" name="pay"> Boleto</label>
+        </div>
+        
+        <div class="input-group">
+          <input type="text" placeholder="Número do Cartão">
+        </div>
+        <div class="input-row">
+          <input type="text" placeholder="Validade (MM/AA)">
+          <input type="text" placeholder="CVV">
+        </div>
+      </div>
+    </div>
+
+    <div class="summary-column">
+      <h3>Resumo do Pedido</h3>
+      
+      <div class="summary-items">
+        @for (item of cartService.cart(); track item.id) {
+          <div class="summary-item">
+            <img [src]="item.image" [alt]="item.name">
+            <div class="item-details">
+              <span>{{ item.name }}</span>
+              <strong>R$ {{ item.price }}</strong>
+            </div>
+          </div>
+        } @empty {
+          <p class="empty-msg">Seu carrinho está vazio.</p>
+        }
+      </div>
+
+      <div class="totals">
+        <div class="total-line">
+          <span>Subtotal</span>
+          <span>R$ {{ cartService.cartTotal() }}</span>
+        </div>
+        <div class="total-line">
+          <span>Frete</span>
+          <span class="free">Grátis</span>
+        </div>
+        <div class="total-line grand-total">
+          <span>Total a pagar</span>
+          <span>R$ {{ cartService.cartTotal() }}</span>
+        </div>
+      </div>
+
+      @if (cartService.cart().length > 0) {
+        <button class="finish-btn" (click)="finalizarCompra()">Confirmar Pagamento 🔒</button>
+      } @else {
+        <button class="finish-btn disabled" disabled>Adicione itens para comprar</button>
+      }
+    </div>
+
+  </div>
+</div>

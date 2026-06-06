@@ -1,0 +1,258 @@
+/* =========================================
+   1. CONTAINER E NAVEGAÇÃO
+   ========================================= */
+.checkout-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 10px 20px 40px 20px;
+  color: #CCD0CF;
+}
+
+.back-area {
+  margin-bottom: 25px;
+}
+
+.back-link {
+  color: #9BA8AB;
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: 0.3s;
+}
+
+.back-link:hover {
+  color: #FFFFFF;
+}
+
+/* =========================================
+   2. LAYOUT PRINCIPAL (DUAS COLUNAS)
+   ========================================= */
+.checkout-layout {
+  display: flex;
+  gap: 40px;
+  align-items: flex-start;
+}
+
+.form-column {
+  flex: 1.8;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.form-column h2 {
+  font-size: 2rem;
+  color: #FFFFFF;
+}
+
+/* =========================================
+   3. SEÇÕES DE FORMULÁRIO E INPUTS
+   ========================================= */
+.form-section {
+  background: #11212D;
+  padding: 30px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.form-section h3 {
+  color: #FFFFFF;
+  margin-bottom: 20px;
+  font-size: 1.2rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 10px;
+}
+
+.input-group {
+  margin-bottom: 15px;
+}
+
+.input-row {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+input[type="text"] {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 16px;
+  border-radius: 10px;
+  color: #FFFFFF;
+  font-size: 1rem;
+  outline: none;
+  transition: border 0.3s;
+}
+
+input[type="text"]:focus {
+  border-color: #CCD0CF;
+}
+
+/* =========================================
+   4. MÉTODOS DE PAGAMENTO
+   ========================================= */
+.payment-methods {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.pay-method {
+  flex: 1;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 15px;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.9rem;
+}
+
+.pay-method.active {
+  border-color: #CCD0CF;
+  background: rgba(204, 208, 207, 0.05);
+}
+
+/* =========================================
+   5. RESUMO DO PEDIDO (COLUNA DIREITA)
+   ========================================= */
+.summary-column {
+  flex: 1;
+  background: #11212D;
+  padding: 30px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  position: sticky;
+  top: 30px;
+}
+
+.summary-column h3 {
+  color: #FFFFFF;
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+}
+
+.summary-items {
+  max-height: 300px;
+  overflow-y: auto;
+  margin-bottom: 20px;
+  padding-right: 10px;
+}
+
+/* SCROLLBAR PERSONALIZADA */
+.summary-items::-webkit-scrollbar { width: 6px; }
+.summary-items::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 10px; }
+
+.summary-item {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 15px;
+  align-items: center;
+}
+
+.summary-item img {
+  width: 60px;
+  height: 60px;
+  border-radius: 8px;
+  object-fit: cover;
+  background: #06141B;
+}
+
+.item-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.item-details span {
+  font-size: 0.9rem;
+  margin-bottom: 4px;
+}
+
+.item-details strong {
+  color: #FFFFFF;
+}
+
+.empty-msg {
+  color: #9BA8AB;
+  font-style: italic;
+}
+
+/* =========================================
+   6. TOTAIS E BOTÃO DE FINALIZAR
+   ========================================= */
+.totals {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 20px;
+  margin-bottom: 25px;
+}
+
+.total-line {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.free {
+  color: #4CAF50;
+  font-weight: bold;
+}
+
+.grand-total {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #FFFFFF;
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.finish-btn {
+  width: 100%;
+  padding: 18px;
+  border-radius: 12px;
+  background: #CCD0CF;
+  color: #06141B;
+  border: none;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: 0.3s;
+}
+
+.finish-btn:hover {
+  background: #FFFFFF;
+  transform: translateY(-2px);
+}
+
+.finish-btn.disabled {
+  background: #4A5C6A;
+  color: #9BA8AB;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* =========================================
+   7. RESPONSIVIDADE
+   ========================================= */
+@media (max-width: 900px) {
+  .checkout-layout {
+    flex-direction: column;
+  }
+  
+  .summary-column {
+    position: static;
+    width: 100%;
+  }
+  
+  .input-row {
+    flex-direction: column;
+    gap: 0;
+  }
+  
+  .payment-methods {
+    flex-direction: column;
+  }
+}

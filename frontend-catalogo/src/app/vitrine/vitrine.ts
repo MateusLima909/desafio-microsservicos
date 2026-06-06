@@ -1,11 +1,13 @@
-import { Component, inject, signal, computed } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { CartService } from '../services/cart'; //
+import { SlicePipe } from '@angular/common'; 
+import { CartService } from '../services/cart';
 
 @Component({
   selector: 'app-vitrine',
+  standalone: true,
+  imports: [RouterLink, SlicePipe], 
   templateUrl: './vitrine.html',
-  imports: [RouterLink],
   styleUrl: './vitrine.css'
 })
 
@@ -13,16 +15,15 @@ export class Vitrine {
   public cartService = inject(CartService);
   
   activeCategory = signal('Todos');
-
-  filteredProducts = computed(() => {
-    const selected = this.activeCategory();
-    if (selected === 'Todos') {
-      return this.cartService.products(); 
+  
+  filteredProducts = () => {
+    if (this.activeCategory() === 'Todos') {
+      return this.cartService.products();
     }
-    return this.cartService.products().filter((p: any) => p.category === selected);
-  });
+    return this.cartService.products().filter(p => p.category === this.activeCategory());
+  };
 
-  changeCategory(newCategory: string) {
-    this.activeCategory.set(newCategory);
+  changeCategory(category: string) {
+    this.activeCategory.set(category);
   }
 }

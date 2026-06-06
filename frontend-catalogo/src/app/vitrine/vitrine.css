@@ -1,5 +1,6 @@
-/* HERO */
-
+/* =========================================
+   1. HERO SECTION (DESTAQUE PRINCIPAL)
+   ========================================= */
 .hero {
   background: linear-gradient(135deg, #11212D, #253745);
   border-radius: 32px;
@@ -62,8 +63,9 @@
   transform: translateY(-3px);
 }
 
-/* CATEGORIAS */
-
+/* =========================================
+   2. CATEGORIAS (FILTROS)
+   ========================================= */
 .categorias {
   display: flex;
   gap: 16px;
@@ -90,16 +92,18 @@
   font-weight: 700;
 }
 
-/* CATÁLOGO */
-
+/* =========================================
+   3. CATÁLOGO (GRID PRINCIPAL)
+   ========================================= */
 .catalogo {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: 28px;
 }
 
-/* CARD */
-
+/* =========================================
+   4. CARD DE PRODUTO
+   ========================================= */
 .card {
   background: #11212D;
   border-radius: 28px;
@@ -116,30 +120,31 @@
   transform: translateY(-8px);
 }
 
-/* IMAGE */
-
+/* =========================================
+   5. IMAGEM DO PRODUTO
+   ========================================= */
 .image-area {
-  height: 240px;
-  background: linear-gradient(135deg, #253745, #4A5C6A);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
+  display: block;
+  width: 100%;
+  height: 220px;
+  background: #11212D;
+  padding: 0 !important; /* Remove a sobra cinza lateral */
 }
 
 .image-area img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
-  transition: 0.4s;
+  object-fit: cover; /* Faz a foto preencher 100% do espaço sem amassar */
+  transition: transform 0.3s ease;
 }
 
-.card:hover img {
+.card:hover .image-area img {
   transform: scale(1.05);
 }
 
-/* CONTENT */
-
+/* =========================================
+   6. CONTEÚDO E INFORMAÇÕES DO PRODUTO
+   ========================================= */
 .card-content {
   padding: 24px;
   display: flex;
@@ -163,8 +168,9 @@
   margin-bottom: 30px;
 }
 
-/* BOTTOM */
-
+/* =========================================
+   7. ÁREA DE PREÇO E BOTÃO DE COMPRA
+   ========================================= */
 .bottom {
   display: flex;
   justify-content: space-between;

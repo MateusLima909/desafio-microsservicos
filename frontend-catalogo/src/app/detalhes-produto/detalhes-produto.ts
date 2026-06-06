@@ -1,5 +1,5 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink, Router } from '@angular/router';
 import { CartService } from '../services/cart';
 
 @Component({
@@ -11,15 +11,19 @@ import { CartService } from '../services/cart';
 })
 export class DetalhesProduto implements OnInit {
   private route = inject(ActivatedRoute);
+  private router = inject(Router); 
   public cartService = inject(CartService);
 
   product = signal<any>(null);
 
   ngOnInit() {
     const id = Number(this.route.snapshot.paramMap.get('id'));
-    
     const found = this.cartService.products().find(p => p.id === id);
-    
     this.product.set(found);
+  }
+
+  payNow(produto: any) {
+    this.cartService.addToCart(produto); 
+    this.router.navigate(['/checkout']); 
   }
 }

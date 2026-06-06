@@ -1,0 +1,289 @@
+/* =========================================
+   1. FUNDO TELA CHEIA (O DESFOQUE DO CATÁLOGO)
+   ========================================= */
+.login-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    background: rgba(6, 20, 27, 0.75) !important;
+    backdrop-filter: blur(12px) !important;
+    color: #CCD0CF;
+    overflow: hidden;
+}
+
+.backdrop {
+    position: absolute;
+    inset: 0;
+    cursor: default;
+}
+
+/* =========================================
+   2. ESTRUTURA BÁSICA (LAYOUT FLEXÍVEL)
+   ========================================= */
+.login-overlay.layout-login {
+  justify-content: flex-end;
+  padding-right: 10%;
+}
+
+.login-overlay.layout-cadastro {
+  justify-content: flex-start;
+  padding-left: 10%;
+}
+
+/* =========================================
+   3. A MARCA D'ÁGUA
+   ========================================= */
+.side-content {
+  position: absolute;
+  width: 60%;
+  text-align: center;
+  pointer-events: none;
+  z-index: 1;
+  transition: all 0.8s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.login-overlay.layout-login .side-content {
+  left: 0;
+}
+
+.login-overlay.layout-cadastro .side-content {
+  left: 40%;
+}
+
+.side-content h1 {
+    font-size: 100px;
+    color: #11212D !important;
+    font-weight: 900;
+    text-transform: uppercase;
+    margin: 0;
+    letter-spacing: 8px;
+}
+
+.side-content h1 span {
+    color: #253745 !important;
+}
+
+.side-content p {
+    font-size: 14px;
+    letter-spacing: 5px;
+    color: #253745 !important;
+    font-weight: 600;
+    margin-top: 5px;
+    text-transform: uppercase;
+}
+
+/* =========================================
+   4. FORMULÁRIO DE LOGIN/CADASTRO
+   ========================================= */
+.form-container {
+    position: relative;
+    width: 40%;
+    min-width: 380px;
+    max-width: 420px;
+    display: flex;
+    justify-content: center;
+    z-index: 2;
+    animation: transicaoSuave 3s;
+}
+
+form {
+    width: 100%;
+    padding: 40px;
+    background: rgba(17, 33, 45, 0.9) !important;
+    border: 1px solid #253745 !important;
+    border-radius: 16px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+    animation: transicaoSuave 3s;
+}
+
+.fechar-btn {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    color: #9BA8AB;
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.fechar-btn:hover {
+    color: #FFFFFF;
+    transform: scale(1.1);
+}
+
+form h2 {
+    font-size: 1.8rem;
+    margin-top: 0;
+    margin-bottom: 5px;
+    color: #FFFFFF;
+}
+
+.hr-gradiente {
+    width: 100%;
+    height: 2px;
+    margin: 15px 0 25px 0;
+    border: none;
+    background: linear-gradient(100deg, transparent, #4A5C6A, transparent);
+}
+
+/* =========================================
+   5. INPUTS E BOTÕES
+   ========================================= */
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 20px;
+  font-weight: bold;
+  font-size: 0.85rem;
+  color: #CCD0CF;
+}
+
+.input-wrapper,
+.password-wrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+input {
+  width: 100%;
+  padding: 14px 14px 14px 45px;
+  border: 1px solid #253745 !important;
+  border-radius: 10px;
+  outline: none;
+  background: #06141B !important;
+  color: #FFFFFF !important;
+  font-size: 1rem;
+  transition: all 0.3s;
+}
+
+input:focus {
+  border-color: #9BA8AB !important;
+}
+
+.icon-field {
+  position: absolute;
+  left: 15px;
+  width: 18px;
+  height: 18px;
+  color: #9BA8AB;
+  pointer-events: none;
+}
+
+.btn-ver-senha {
+  position: absolute;
+  right: 12px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  color: #9BA8AB;
+  transition: 0.3s;
+}
+
+.btn-ver-senha svg {
+  width: 18px;
+  height: 18px;
+}
+
+.btn-ver-senha:hover {
+  color: #FFFFFF;
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 15px;
+  margin-top: 10px;
+  background-color: #CCD0CF !important;
+  color: #06141B !important;
+  font-weight: bold;
+  font-size: 1.05rem;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.submit-btn:hover {
+  background-color: #FFFFFF !important;
+  transform: translateY(-2px);
+}
+
+.toggle-text {
+  text-align: center;
+  margin-top: 25px;
+  font-size: 0.9rem;
+  color: #9BA8AB;
+}
+
+.toggle-text a {
+  color: #CCD0CF;
+  font-weight: bold;
+  text-decoration: none;
+  margin-left: 5px;
+  transition: 0.3s;
+}
+
+.toggle-text a:hover {
+  color: #FFFFFF;
+  text-decoration: underline;
+}
+
+.hr-gradiente {
+  width: 100%;
+  height: 2px;
+  margin: 15px 0 25px 0;
+  border: none;
+  background: linear-gradient(100deg, transparent, transparent, #CCD0CF, transparent);
+  background-size: 200% 100%;
+  animation: animacaoLinha 5s linear infinite;
+}
+
+
+@keyframes animacaoLinha {
+  0% {
+    background-position: 0% 0%;
+  }
+
+  100% {
+    background-position: 200% 0%;
+  }
+}
+
+@keyframes transicaoSuave {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* RESPONSIVO */
+@media (max-width: 900px) {
+  .side-content {
+    display: none;
+  }
+
+  .login-overlay.layout-login,
+  .login-overlay.layout-cadastro {
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .form-container {
+    width: 100%;
+    min-width: auto;
+  }
+}
