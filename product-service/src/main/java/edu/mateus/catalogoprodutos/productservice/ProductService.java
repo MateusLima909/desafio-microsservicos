@@ -2,6 +2,7 @@ package edu.mateus.catalogoprodutos.productservice;
 
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -22,7 +23,7 @@ public class ProductService {
     }
 
     public Product create(Product product) {
-        if (product.getPrice() < 0) {
+        if (product.getPrice().compareTo(BigDecimal.ZERO) < 0) {
             throw new IllegalArgumentException("Preço inválido! O valor não pode ser menor que 0!");
         }
 
