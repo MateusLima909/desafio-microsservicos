@@ -1,7 +1,10 @@
 FROM gradle:8.5.0-jdk21 AS build
 WORKDIR /app
+
 COPY build.gradle ./
+
 RUN gradle dependencies --no-daemon
+
 COPY src ./src
 RUN gradle build --no-daemon -x test
 

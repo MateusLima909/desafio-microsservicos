@@ -1,28 +1,36 @@
 package edu.mateus.catalogoprodutos.orderservice;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class OrderService {
 
-    private ProductClient productClient;
-    private OrderRepository orderRepository;
+    private final ProductClient productClient;
+    private final OrderRepository orderRepository;
 
-    public OrderService (ProductClient productClient, OrderRepository orderRepository) {
-        this.productClient = productClient;
-        this.orderRepository = orderRepository;
-    }
+    @Transactional
+    public OrderResponseDTO createOrder(OrderRequestDTO request, String customerEmail) {
+        
+        Order order = new Order();
+        order.setOrderProtocol("PROT-" + System.currentTimeMillis());
+        order.setCustomerEmail(customerEmail);
 
-    public OrderResponseDTO createOrder(List<Long> productIds) {
-        Order order = new Order("PROT-" + System.currentTimeMillis());
-
-        for (Long idProducts : productIds) {
-            ProductDTO foundProduct = productClient.findById(idProducts);
-            OrderItem item = new OrderItem(order, idProducts, 1, foundProduct.price());
+        for (OrderItemRequestDTO itemRequest : request.items()) {
+            
+            ProductDTO foundProduct = productClient.findById(itemRequest.productId());
+            
+            OrderItem item = OrderItem.builder()
+                    .order(order)
+                    .productId(itemRequest.productId())
+                    .quantity(itemRequest.quantity()) 
+                    .singlePrice(foundProduct.price())
+                    .build();
+            
             order.getItems().add(item);
 
             int newStock = foundProduct.stock() - item.getQuantity();
@@ -30,43 +38,22 @@ public class OrderService {
                 throw new RuntimeException("Produto " + foundProduct.name() + " está sem estoque.");
             }
 
-            productClient.updateStockTimePurchase(idProducts, item.getQuantity());
+            productClient.updateStockTimePurchase(itemRequest.productId(), item.getQuantity());
         }
 
         order.calculateTotalValue();
         orderRepository.save(order);
 
-        OrderResponseDTO orderResponse = new OrderResponseDTO(  
+        return new OrderResponseDTO(  
             order.getId(), 
+            order.getCustomerEmail(),
             order.getOrderProtocol(), 
-            order.getTimePurchase().toString(), 
-            order.getStatus().toString(), 
+            order.getTimePurchase() != null ? order.getTimePurchase().toString() : "Gerando data...", 
+            order.getStatus() != null ? order.getStatus().toString() : "PENDENTE", 
             order.getTotalValue(),
             order.getItems().stream()
                 .map(item -> new OrderItemResponseDTO(item.getProductId(), item.getQuantity(), item.getSinglePrice()))
                 .collect(Collectors.toList())
         );
-
-        return orderResponse;
-    }
-
-    public String simulateOrder(List<Long> productIds) {
-        
-        List<ProductDTO> specificProducts = new ArrayList<>();
-
-        for (Long idProducts : productIds) {
-            ProductDTO foundProduct = productClient.findById(idProducts);
-            specificProducts.add(foundProduct);
-        }
-
-        double totalPrice = specificProducts.stream()
-                .mapToDouble(ProductDTO::price)
-                .sum();
-
-        String productsNames = specificProducts.stream()
-                .map(ProductDTO::name)
-                .collect(Collectors.joining(", "));
-
-        return "Pedido Simulado com Sucesso para os Produtos: [" + productsNames + "]. Valor total: R$ " + String.format("%.2f", totalPrice);
     }
 }

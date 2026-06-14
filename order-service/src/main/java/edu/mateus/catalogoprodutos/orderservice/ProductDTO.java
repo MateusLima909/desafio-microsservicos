@@ -1,3 +1,12 @@
 package edu.mateus.catalogoprodutos.orderservice;
 
-public record ProductDTO(Long id, String name, Double price, Integer stock) { }
+import java.math.BigDecimal;
+
+public record ProductDTO(
+        Long id,
+        String name,
+        BigDecimal price,
+        Integer stock,
+        String imageUrl,
+        String category
+){ }

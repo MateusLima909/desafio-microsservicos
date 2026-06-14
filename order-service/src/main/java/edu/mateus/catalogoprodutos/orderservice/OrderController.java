@@ -1,28 +1,20 @@
 package edu.mateus.catalogoprodutos.orderservice;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/pedidos")
+@RequiredArgsConstructor 
 public class OrderController {
 
     private final OrderService service;
 
-    @Autowired
-    public OrderController(OrderService service) {
-        this.service = service;
-    }
-
-    @PostMapping("/simular")
-    public String simulateOrder(@RequestBody List<Long> productIds) {
-        return service.simulateOrder(productIds);
-    }
-
     @PostMapping("/criar")
-    public OrderResponseDTO createOrder(@RequestBody List<Long> productIds) {
-        return service.createOrder(productIds);
+    public OrderResponseDTO createOrder(
+            @RequestBody OrderRequestDTO request,
+            @RequestHeader(value = "X-User-Email", defaultValue = "cliente@pecstore.com") String customerEmail
+    ) {
+        return service.createOrder(request, customerEmail);
     }
 }
