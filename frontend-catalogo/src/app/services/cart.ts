@@ -1,34 +1,44 @@
-import { Injectable, signal, computed } from '@angular/core';
+import { Injectable, signal, computed, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+
+export interface Product {
+  id: number;
+  name: string;
+  price: number;
+  stock: number;
+  imageUrl: string;
+  category: string;
+  description?: string; 
+  specs?: string[]; 
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
-  products = signal<any[]>([
-    {
-      id: 1,
-      name: 'Guitarra Strato HSS',
-      price: 2850,
-      image: 'https://images.unsplash.com/photo-1564186763535-ebb21ef5277f?q=80&w=500&auto=format&fit=crop',
-      category: 'Guitarras',
-      stock: 5,
-      descricao: 'Corpo em Alder, braço em Maple com perfil "C". Configuração HSS versátil, ideal para quem transita entre o clean cristalino e drives mais pesados.',
-      specs: ['Captador Humbucker na ponte', 'Tarraxas com trava', 'Trastes Jumbo']
-    },
-    {
-      id: 2,
-      name: 'Pedal Multi-efeitos IR Loader',
-      price: 450,
-      image: 'https://images.unsplash.com/photo-1543884878-8314ba6353ea?q=80&w=500&auto=format&fit=crop',
-      category: 'Pedais & Efeitos',
-      stock: 12,
-      descricao: 'Carregue seus próprios Impulse Responses (IRs) de gabinetes lendários. Inclui simulação de pré-amps clássicos, delays e reverbs de estúdio.',
-      specs: ['Suporta até 32 arquivos IR', 'Saída XLR balanceada', 'Software de edição via USB']
-    }
-  ]);
 
+  private http = inject(HttpClient);
+
+  products = signal<Product[]>([]);
+  
   cart = signal<any[]>([]);
   isCartOpen = signal(false);
+
+  loadProductsFromBackend() {
+    this.http.get<any[]>('http://localhost:8765/produtos').subscribe({
+      next: (dadosDoBanco) => {
+        const produtosMapeados: Product[] = dadosDoBanco.map(produto => {
+          return {
+            ...produto,
+            specs: produto.specs ? produto.specs.split(',').map((item: string) => item.trim()) : []
+          };
+        });
+
+        this.products.set(produtosMapeados);
+      },
+      error: (erro) => console.error('Erro ao conectar com o Gateway:', erro)
+    });
+  }
 
   toggleCart() {
     this.isCartOpen.update(val => !val);

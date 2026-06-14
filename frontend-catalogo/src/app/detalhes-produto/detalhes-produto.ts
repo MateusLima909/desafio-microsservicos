@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal, effect } from '@angular/core';
 import { ActivatedRoute, RouterLink, Router } from '@angular/router';
 import { CartService } from '../services/cart';
 
@@ -16,10 +16,22 @@ export class DetalhesProduto implements OnInit {
 
   product = signal<any>(null);
 
+  constructor() {
+    effect(() => {
+      const produtosNoService = this.cartService.products();
+      
+      if (produtosNoService.length > 0) {
+        const id = Number(this.route.snapshot.paramMap.get('id'));
+        const found = produtosNoService.find(p => p.id === id);
+        this.product.set(found);
+      }
+    });
+  }
+
   ngOnInit() {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
-    const found = this.cartService.products().find(p => p.id === id);
-    this.product.set(found);
+    if (this.cartService.products().length === 0) {
+      this.cartService.loadProductsFromBackend();
+    }
   }
 
   payNow(produto: any) {

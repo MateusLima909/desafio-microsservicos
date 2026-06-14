@@ -32,7 +32,7 @@
     @for (product of filteredProducts(); track product.id) {
       <div class="card">
         <div class="image-area" [routerLink]="['/product', product.id]" style="cursor: pointer;">
-          <img [src]="product.image" [alt]="product.name">
+          <img [src]="product.imageUrl" [alt]="product.name">
         </div>
 
         <div class="card-content">
@@ -40,7 +40,7 @@
           <h2 [routerLink]="['/product', product.id]" style="cursor: pointer;">
             {{ product.name }}
           </h2>
-          <p class="descricao">{{ product.descricao | slice:0:65 }}...</p>
+          <p class="descricao">{{ product.description | slice:0:65 }}...</p>
 
           <div class="bottom">
             <div>

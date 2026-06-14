@@ -47,7 +47,7 @@
       <div class="summary-items">
         @for (item of cartService.cart(); track item.id) {
           <div class="summary-item">
-            <img [src]="item.image" [alt]="item.name">
+            <img [src]="item.imageUrl" [alt]="item.name">
             <div class="item-details">
               <span>{{ item.name }}</span>
               <strong>R$ {{ item.price }}</strong>
