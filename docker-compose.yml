@@ -1,34 +1,74 @@
 services:
+  # =========================================
+  # 1. BANCOS DE DADOS (POSTGRESQL)
+  # =========================================
+  postgres-product:
+    image: postgres:15-alpine
+    container_name: postgres-product
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123
+      POSTGRES_DB: pecstore_catalogo
+    ports:
+      - "5432:5432"
+
+  postgres-order:
+    image: postgres:15-alpine
+    container_name: postgres-order
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123
+      POSTGRES_DB: pecstore_pedidos
+    ports:
+      - "5433:5432"
+
+  # =========================================
+  # 2. MICROSSERVIÇOS (JAVA / SPRING BOOT)
+  # =========================================
   discovery-service:
     build: ./discovery-service
     container_name: discovery-service
     ports:
       - "8761:8761"
-  product-service:
-    build: ./product-service
-    container_name: product-service
-    ports:
-      - "8100:8100"
-
-    depends_on:
-      - discovery-service
-  order-service:
-    build: ./order-service
-    container_name: order-service
-    ports:
-      - "8200:8200"
-
-    depends_on:
-      - discovery-service
-      - product-service
 
   api-gateway:
     build: ./api-gateway
     container_name: api-gateway
     ports:
       - "8765:8765"
-      
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://discovery-service:8761/eureka/
     depends_on:
       - discovery-service
       - product-service
       - order-service
+
+  product-service:
+    build: ./product-service
+    container_name: product-service
+    ports:
+      - "8100:8100"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-product:5432/pecstore_catalogo
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=123
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://discovery-service:8761/eureka/
+    depends_on:
+      - discovery-service
+      - postgres-product
+
+  order-service:
+    build: ./order-service
+    container_name: order-service
+    ports:
+      - "8200:8200"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-order:5432/pecstore_pedidos
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=123
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://discovery-service:8761/eureka/
+    depends_on:
+      - discovery-service
+      - product-service
+      - postgres-order
+
