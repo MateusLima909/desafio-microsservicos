@@ -1,150 +1,291 @@
 /* =========================================
-   1. HERO SECTION (DESTAQUE PRINCIPAL)
-   ========================================= */
+ 1. HERO SECTION (DESTAQUE PRINCIPAL)
+ ========================================= */
 .hero {
-  background: linear-gradient(135deg, #11212D, #253745);
-  border-radius: 32px;
-  padding: 70px;
-  margin-bottom: 40px;
   position: relative;
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 25px;
+  margin-bottom: 50px;
+  border-radius: 36px;
+  background: linear-gradient(135deg, #11212D 0%, #0b1b25 50%, #1d3140 100%);
+  border: 1px solid rgba(255, 255, 255, .05);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, .30);
 }
 
 .hero::before {
   content: "";
   position: absolute;
-  width: 400px;
-  height: 400px;
-  background: rgba(255, 255, 255, 0.03);
-  border-radius: 50%;
-  top: -150px;
-  right: -100px;
+  inset: 0;
+  background: radial-gradient(circle at 80% 20%, rgba(59, 130, 246, .15), transparent 40%);
 }
 
 .hero-content {
   position: relative;
   z-index: 2;
-  max-width: 600px;
+  max-width: 650px;
 }
 
-.tag {
-  background: rgba(255, 255, 255, 0.08);
+.hero-badge {
+  display: inline-block;
   padding: 10px 18px;
   border-radius: 999px;
-  font-size: 0.9rem;
+  background: rgba(255, 255, 255, .06);
+  border: 1px solid rgba(255, 255, 255, .05);
+  color: #cbd5e1;
+  margin-bottom: 28px;
 }
 
 .hero h1 {
-  font-size: 4rem;
-  margin: 24px 0;
-  line-height: 1.1;
+  font-size: 4.5rem;
+  line-height: 1.05;
+  font-weight: 900;
+  letter-spacing: -2px;
+  margin-bottom: 25px;
 }
 
 .hero p {
+  font-size: 1.2rem;
   color: #9BA8AB;
-  font-size: 1.1rem;
-  line-height: 1.6;
-  margin-bottom: 30px;
+  line-height: 1.8;
+  max-width: 580px;
+  margin-bottom: 35px;
 }
 
-.hero button {
-  background: #CCD0CF;
-  color: #06141B;
+.hero-buttons {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 50px;
+}
+
+.primary-btn {
   border: none;
-  padding: 16px 28px;
-  border-radius: 16px;
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: white;
+  padding: 18px 32px;
+  border-radius: 18px;
   font-weight: 700;
   cursor: pointer;
-  transition: 0.3s;
+  transition: .35s;
 }
 
-.hero button:hover {
-  transform: translateY(-3px);
+.primary-btn:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 15px 35px rgba(37, 99, 235, .35);
+}
+
+.secondary-btn {
+  border: 1px solid rgba(255, 255, 255, .08);
+  background: rgba(255, 255, 255, .03);
+  color: white;
+  padding: 18px 32px;
+  border-radius: 18px;
+  cursor: pointer;
+  transition: .35s;
+}
+
+.secondary-btn:hover {
+  background: rgba(255, 255, 255, .06);
+}
+
+.hero-stats {
+  display: flex;
+  gap: 50px;
+}
+
+.hero-stats h3 {
+  font-size: 2rem;
+  color: #38bdf8;
+  margin-bottom: 6px;
+}
+
+.hero-stats span {
+  color: #94a3b8;
+  font-size: .95rem;
+}
+
+.hero-decoration {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.circle-1 {
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .03);
+  top: -220px;
+  right: -150px;
+}
+
+.circle-2 {
+  position: absolute;
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  background: rgba(59, 130, 246, .08);
+  bottom: -100px;
+  right: 120px;
+}
+
+.circle-3 {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .04);
+  top: 80px;
+  right: 350px;
+}
+
+@media (max-width: 900px) {
+  .hero { padding: 50px 35px; }
+  .hero h1 { font-size: 3rem; }
+  .hero-stats { flex-wrap: wrap; gap: 25px; }
+  .hero-buttons { flex-direction: column; }
+  .primary-btn,
+  .secondary-btn { width: 100%; }
 }
 
 /* =========================================
-   2. CATEGORIAS (FILTROS)
-   ========================================= */
+ 2. CATEGORIAS (FILTROS)
+ ========================================= */
 .categorias {
   display: flex;
-  gap: 16px;
-  margin-bottom: 40px;
+  gap: 18px;
   flex-wrap: wrap;
+  margin-bottom: 45px;
 }
 
 .categoria {
-  padding: 12px 20px;
-  background: #11212D;
-  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 24px;
+  border-radius: 18px;
   cursor: pointer;
-  transition: 0.3s;
-  border: 1px solid transparent;
+  background: rgba(255, 255, 255, .03);
+  border: 1px solid rgba(255, 255, 255, .05);
+  backdrop-filter: blur(12px);
+  transition: .35s ease;
+  color: #cbd5e1;
+  user-select: none;
 }
 
+.categoria span { font-size: 1.1rem; }
+
 .categoria:hover {
-  border-color: #4A5C6A;
+  transform: translateY(-3px);
+  border-color: rgba(56, 189, 248, .4);
+  color: #38bdf8;
+  box-shadow: 0 12px 25px rgba(0, 0, 0, .20);
 }
 
 .categoria.active {
-  background: #CCD0CF;
-  color: #06141B;
-  font-weight: 700;
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: white;
+  border-color: transparent;
+  box-shadow: 0 15px 30px rgba(37, 99, 235, .30);
 }
 
+.categoria.active span { transform: scale(1.15); }
+
+@media (max-width: 768px) {
+  .categorias { justify-content: center; }
+  .categoria { flex: 1; justify-content: center; min-width: 150px; }
+}
+
+.catalog-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.catalog-header h2 { font-size: 2rem; margin-bottom: 6px; }
+.catalog-header p { color: #94a3b8; }
+
 /* =========================================
-   3. CATÁLOGO (GRID PRINCIPAL)
-   ========================================= */
+ 3. CATÁLOGO (GRID PRINCIPAL)
+ ========================================= */
 .catalogo {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: 28px;
+  align-items: start;
 }
 
 /* =========================================
-   4. CARD DE PRODUTO
-   ========================================= */
+ 4. CARD DE PRODUTO
+ ========================================= */
 .card {
-  background: #11212D;
-  border-radius: 28px;
+  position: relative;
   overflow: hidden;
-  transition: 0.4s;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  border-radius: 30px;
+  background: linear-gradient(135deg, rgba(17, 33, 45, .95), rgba(10, 25, 35, .98));
+  border: 1px solid rgba(255, 255, 255, .05);
+  transition: .4s;
   display: flex;
   flex-direction: column;
-  height: 100%;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, .25);
+  height: 540px;
 }
 
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(59, 130, 246, .08), transparent);
+  opacity: 0;
+  transition: .4s;
+}
+
+.card:hover::before { opacity: 1; }
+
 .card:hover {
-  transform: translateY(-8px);
+  transform: translateY(-10px);
+  border-color: rgba(59, 130, 246, .25);
+  box-shadow: 0 25px 45px rgba(0, 0, 0, .35);
 }
 
 /* =========================================
-   5. IMAGEM DO PRODUTO
-   ========================================= */
+ 5. IMAGEM DO PRODUTO
+ ========================================= */
 .image-area {
-  display: block;
-  width: 100%;
+  position: relative;
   height: 220px;
-  background: #11212D;
-  padding: 0 !important; /* Remove a sobra cinza lateral */
+  overflow: hidden;
+  background: #09161f;
+  cursor: pointer;
 }
 
 .image-area img {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Faz a foto preencher 100% do espaço sem amassar */
-  transition: transform 0.3s ease;
+  object-fit: cover;
+  transition: transform .5s ease;
 }
 
-.card:hover .image-area img {
-  transform: scale(1.05);
-}
+.card:hover img { transform: scale(1.08); }
 
 /* =========================================
-   6. CONTEÚDO E INFORMAÇÕES DO PRODUTO
-   ========================================= */
+ 6. CONTEÚDO E INFORMAÇÕES DO PRODUTO
+ ========================================= */
+.discount-badge {
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  z-index: 2;
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: white;
+  font-size: .8rem;
+  font-weight: 700;
+  box-shadow: 0 10px 20px rgba(37, 99, 235, .3);
+}
+
 .card-content {
   padding: 24px;
   display: flex;
@@ -153,53 +294,88 @@
 }
 
 .stock {
-  color: #9BA8AB;
-  font-size: 0.9rem;
+  display: inline-block;
+  width: fit-content;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(34, 197, 94, .12);
+  color: #4ade80;
+  font-size: .8rem;
+  font-weight: 700;
+  margin-bottom: 18px;
 }
 
 .card h2 {
-  margin: 14px 0;
-  font-size: 1.5rem;
+  font-size: 1.6rem;
+  margin-bottom: 14px;
+  cursor: pointer;
+  min-height: 30px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
+
+.card h2:hover { color: #38bdf8; }
 
 .descricao {
-  color: #9BA8AB;
-  line-height: 1.5;
-  margin-bottom: 30px;
+  color: #94a3b8;
+  line-height: 1.7;
+  margin-bottom: 10px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 75px;
 }
 
-/* =========================================
-   7. ÁREA DE PREÇO E BOTÃO DE COMPRA
-   ========================================= */
 .bottom {
+  margin-top: auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: auto;
+}
+
+/* =========================================
+ 7. ÁREA DE PREÇO E BOTÃO DE COMPRA
+ ========================================= */
+.add-btn {
+  background: rgba(37, 55, 69, 0.5);
+  color: #CCD0CF;
+  border: 1px solid #CCD0CF;
+  z-index: 10;
+}
+
+.add-btn:hover {
+  background: rgba(204, 208, 207, 0.1);
 }
 
 .old-price {
-  text-decoration: line-through;
+  display: block;
   color: #4A5C6A;
-  font-size: 0.9rem;
+  text-decoration: line-through;
+  margin-bottom: 4px;
 }
 
 .price {
-  font-size: 1.8rem;
-  font-weight: 700;
+  font-size: 2rem;
+  font-weight: 800;
+  color: white;
 }
 
 .bottom button {
-  background: #CCD0CF;
-  color: #06141B;
   border: none;
-  padding: 14px 20px;
-  border-radius: 14px;
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: white;
+  padding: 16px 22px;
+  border-radius: 16px;
   font-weight: 700;
   cursor: pointer;
-  transition: 0.3s;
+  transition: .35s;
 }
 
 .bottom button:hover {
-  transform: scale(1.05);
+  transform: translateY(-3px);
+  box-shadow: 0 15px 25px rgba(37, 99, 235, .35);
 }
+

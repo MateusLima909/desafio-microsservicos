@@ -98,4 +98,43 @@ export class CartService {
   cartCount = computed(() => {
     return this.cart().reduce((acc, item) => acc + item.quantity, 0);
   });
+
+  finalizarCompra() {
+    const itensDoPedido = this.cart().map(item => {
+      return {
+        productId: item.id,
+        quantity: item.quantity
+      };
+    });
+
+    const corpoRequisicao = {
+      items: itensDoPedido
+    };
+
+    const cabecalhos = {
+      'X-User-Email': 'cliente@pecstore.com'
+    };
+
+    this.http.post('http://localhost:8765/pedidos/criar', corpoRequisicao, { headers: cabecalhos }).subscribe({
+      next: (resposta) => {
+        console.log('Pedido criado com sucesso!', resposta);
+        alert('Compra finalizada com sucesso! Seu pedido está sendo processado.');
+        
+        this.cart.set([]);
+        this.isCartOpen.set(false);
+      },
+      error: (erro) => {
+        console.error('Erro ao finalizar a compra', erro);
+        alert('Ops! Ocorreu um erro ao processar seu pedido.');
+      }
+    });
+  }
+
+  obterMeusPedidos() {
+    const cabecalhos = {
+      'X-User-Email': 'cliente@pecstore.com'
+    };
+    
+    return this.http.get<any[]>('http://localhost:8765/pedidos/meus-pedidos', { headers: cabecalhos });
+  }
 }

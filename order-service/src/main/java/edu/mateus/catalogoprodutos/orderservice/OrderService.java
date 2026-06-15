@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -52,8 +53,35 @@ public class OrderService {
             order.getStatus() != null ? order.getStatus().toString() : "PENDENTE", 
             order.getTotalValue(),
             order.getItems().stream()
-                .map(item -> new OrderItemResponseDTO(item.getProductId(), item.getQuantity(), item.getSinglePrice()))
+                .map(item -> {
+                    String productName = productClient.findById(item.getProductId()).name();
+                    return new OrderItemResponseDTO(item.getProductId(), productName, item.getQuantity(), item.getSinglePrice());
+                })
                 .collect(Collectors.toList())
         );
+    }
+
+    public List<OrderResponseDTO> getOrdersByEmail(String customerEmail) {
+        List<Order> orders = orderRepository.findByCustomerEmail(customerEmail);
+
+        return orders.stream().map(order -> new OrderResponseDTO(
+                order.getId(),
+                order.getCustomerEmail(),
+                order.getOrderProtocol(),
+                order.getTimePurchase() != null ? order.getTimePurchase().toString() : "",
+                order.getStatus() != null ? order.getStatus().toString() : "PENDENTE",
+                order.getTotalValue(),
+                order.getItems().stream()
+                        .map(item -> {
+                            String productName = "Produto Indisponível";
+                            try {
+                                productName = productClient.findById(item.getProductId()).name();
+                            } catch (Exception e) {
+                               
+                            }
+                            return new OrderItemResponseDTO(item.getProductId(), productName, item.getQuantity(), item.getSinglePrice());
+                        })
+                        .collect(Collectors.toList())
+        )).collect(Collectors.toList());
     }
 }

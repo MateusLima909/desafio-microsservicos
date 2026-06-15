@@ -11,8 +11,5 @@ import { CartService } from '../services/cart';
 export class Checkout {
   public cartService = inject(CartService);
 
-  finalizarCompra() {
-    alert('Pedido realizado com sucesso! A PECStore agradece sua compra 🎸');
-    // No futuro, essa função vai mandar os dados para o seu back-end em Java!
-  }
+
 }
