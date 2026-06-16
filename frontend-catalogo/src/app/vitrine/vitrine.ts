@@ -1,4 +1,4 @@
-import { Component, inject, signal, computed, OnInit } from '@angular/core'; // <-- Importe o computed aqui
+import { Component, inject, signal, computed, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { SlicePipe } from '@angular/common'; 
 import { CartService } from '../services/cart';

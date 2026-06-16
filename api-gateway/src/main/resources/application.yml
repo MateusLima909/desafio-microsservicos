@@ -44,6 +44,14 @@ spring:
             - AddRequestHeader=X-Debug, OrderRoute
             - PreserveHostHeader
 
+        - id: auth-service-api
+          uri: lb://AUTH-SERVICE
+          predicates:
+            - Path=/auth/**
+          filters:
+            - AddRequestHeader=X-Debug, AuthRoute
+            - PreserveHostHeader
+
         - id: product-service-docs
           uri: lb://PRODUCT-SERVICE
           predicates:
@@ -58,6 +66,13 @@ spring:
           filters:
             - RewritePath=/v3/api-docs/order-service, /v3/api-docs
 
+        - id: auth-service-docs
+          uri: lb://AUTH-SERVICE
+          predicates:
+            - Path=/v3/api-docs/auth-service
+          filters:
+            - RewritePath=/v3/api-docs/auth-service, /v3/api-docs
+
 springdoc:
   swagger-ui:
     urls:
@@ -65,6 +80,8 @@ springdoc:
         url: /v3/api-docs/product-service
       - name: Order Service
         url: /v3/api-docs/order-service
+      - name: Auth Service
+        url: /v3/api-docs/auth-service
 
 eureka:
   client:

@@ -7,10 +7,22 @@
       </div>
     </a>
     <div class="nav-actions">
-      <a href="javascript:void(0)" (click)="isLoginOpen.set(true)" style="color: #CCD0CF; text-decoration: none; font-weight: bold; margin-right: 15px;">
-        Entrar
-      </a>
       
+      @if (auth.isLoggedIn()) {
+        <span style="color: #4caf50; font-size: 0.9em; margin-right: 15px;">🟢 Logado</span>
+        
+        <a routerLink="/meus-pedidos" style="color: #CCD0CF; text-decoration: none; font-weight: bold; margin-right: 15px;">
+          Meus Pedidos
+        </a>
+        
+        <a href="javascript:void(0)" (click)="fazerLogout()" style="color: #ff4c4c; text-decoration: none; font-weight: bold; margin-right: 15px;">
+          Sair
+        </a>
+      } @else {
+        <a href="javascript:void(0)" (click)="isLoginOpen.set(true)" style="color: #CCD0CF; text-decoration: none; font-weight: bold; margin-right: 15px;">
+          Entrar
+        </a>
+      }
       <input type="text" placeholder="Buscar produtos..." class="search">
       
       <button class="cart-btn" (click)="cartService.toggleCart()">
@@ -79,13 +91,13 @@
           <span>Subtotal</span>
           <h3>R$ {{ cartService.cartTotal() }}</h3>
         </div>
+        
         <button class="checkout-btn" 
           [disabled]="cartService.cartCount() === 0"
-          [routerLink]="cartService.cartCount() > 0 ? '/checkout' : null"
-          (click)="cartService.cartCount() > 0 ? cartService.toggleCart() : null">
+          (click)="processarCheckout()">
           Finalizar Compra
         </button>
-      </div>
+        </div>
     </div>
   </div> 
 

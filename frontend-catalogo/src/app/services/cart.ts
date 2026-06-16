@@ -1,5 +1,7 @@
 import { Injectable, signal, computed, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Auth } from './auth'; 
+import Swal from 'sweetalert2'; 
 
 export interface Product {
   id: number;
@@ -18,6 +20,7 @@ export interface Product {
 export class CartService {
 
   private http = inject(HttpClient);
+  private authService = inject(Auth);
 
   products = signal<Product[]>([]);
   
@@ -111,28 +114,43 @@ export class CartService {
       items: itensDoPedido
     };
 
+    const token = this.authService.getToken(); 
     const cabecalhos = {
-      'X-User-Email': 'cliente@pecstore.com'
+      'Authorization': `Bearer ${token}` 
     };
 
     this.http.post('http://localhost:8765/pedidos/criar', corpoRequisicao, { headers: cabecalhos }).subscribe({
       next: (resposta) => {
         console.log('Pedido criado com sucesso!', resposta);
-        alert('Compra finalizada com sucesso! Seu pedido está sendo processado.');
+        
+        // Pop-up moderno de Sucesso
+        Swal.fire({
+          title: 'Pedido Confirmado!',
+          text: 'Sua compra foi finalizada e já está sendo processada.',
+          icon: 'success',
+          confirmButtonColor: '#4caf50'
+        });
         
         this.cart.set([]);
         this.isCartOpen.set(false);
       },
       error: (erro) => {
         console.error('Erro ao finalizar a compra', erro);
-        alert('Ops! Ocorreu um erro ao processar seu pedido.');
+        
+        Swal.fire({
+          title: 'Erro na Compra',
+          text: 'Ops! Ocorreu um erro ao processar seu pedido. Tente novamente mais tarde.',
+          icon: 'error',
+          confirmButtonColor: '#ff4c4c'
+        });
       }
     });
   }
 
   obterMeusPedidos() {
+    const token = this.authService.getToken();
     const cabecalhos = {
-      'X-User-Email': 'cliente@pecstore.com'
+      'Authorization': `Bearer ${token}`
     };
     
     return this.http.get<any[]>('http://localhost:8765/pedidos/meus-pedidos', { headers: cabecalhos });

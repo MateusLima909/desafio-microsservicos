@@ -1,6 +1,8 @@
 import { Component, inject, OnInit, signal, effect } from '@angular/core';
 import { ActivatedRoute, RouterLink, Router } from '@angular/router';
 import { CartService } from '../services/cart';
+import { Auth } from '../services/auth'; 
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-detalhes-produto',
@@ -13,6 +15,7 @@ export class DetalhesProduto implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router); 
   public cartService = inject(CartService);
+  private authService = inject(Auth); 
 
   product = signal<any>(null);
 
@@ -35,6 +38,16 @@ export class DetalhesProduto implements OnInit {
   }
 
   payNow(produto: any) {
+    if (!this.authService.isLoggedIn()) {
+      Swal.fire({
+        title: 'Acesso Restrito',
+        text: 'Você precisa estar logado para comprar um produto!',
+        icon: 'warning',
+        confirmButtonColor: '#0056b3'
+      });
+      return; 
+    }
+
     this.cartService.addToCart(produto); 
     this.router.navigate(['/checkout']); 
   }
