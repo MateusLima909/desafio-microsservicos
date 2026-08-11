@@ -1,8 +1,9 @@
 import { Component, inject, OnInit, signal, effect } from '@angular/core';
 import { ActivatedRoute, RouterLink, Router } from '@angular/router';
-import { CartService } from '../services/cart';
-import { Auth } from '../services/auth'; 
 import Swal from 'sweetalert2';
+
+import { CartService } from '../../core/services/cart.service';
+import { AuthService } from '../../core/services/auth.service'; 
 
 @Component({
   selector: 'app-detalhes-produto',
@@ -15,7 +16,7 @@ export class DetalhesProduto implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router); 
   public cartService = inject(CartService);
-  private authService = inject(Auth); 
+  private authService = inject(AuthService); 
 
   product = signal<any>(null);
 

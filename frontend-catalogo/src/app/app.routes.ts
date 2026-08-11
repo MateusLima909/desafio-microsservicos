@@ -1,9 +1,9 @@
 import { Routes } from '@angular/router';
-import { Vitrine } from './vitrine/vitrine';
-import { DetalhesProduto } from './detalhes-produto/detalhes-produto';
-import { Checkout } from './checkout/checkout'; 
-import { Login } from './login/login'
-import { MeusPedidos } from './meus-pedidos/meus-pedidos';
+import { Vitrine } from './pages/vitrine/vitrine';
+import { DetalhesProduto } from './pages/detalhes-produto/detalhes-produto';
+import { Checkout } from './pages/checkout/checkout'; 
+import { Login } from './pages/login/login'
+import { MeusPedidos } from './pages/meus-pedidos/meus-pedidos';
 
 export const routes: Routes = [
   { path: '', component: Vitrine },

@@ -1,9 +1,10 @@
 import { Component, inject, signal } from '@angular/core';
 import { RouterOutlet, RouterLink, Router } from '@angular/router'; 
-import { CartService } from './services/cart';
-import { Auth } from './services/auth'; 
-import { Login } from './login/login';
-import Swal from 'sweetalert2'; // <-- Importação aqui no topo
+import Swal from 'sweetalert2'; 
+
+import { CartService } from './core/services/cart.service';
+import { AuthService } from './core/services/auth.service';
+import { Login } from './pages/login/login';
 
 @Component({
   selector: 'app-root',
@@ -12,9 +13,10 @@ import Swal from 'sweetalert2'; // <-- Importação aqui no topo
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
+
 export class App {
   public cartService = inject(CartService);
-  public auth = inject(Auth);
+  public auth = inject(AuthService);
   private router = inject(Router); 
 
   isLoginOpen = signal(false); 
@@ -22,7 +24,6 @@ export class App {
   fazerLogout() {
     this.auth.logout();
     
-    // Alert moderno de Sucesso
     Swal.fire({
       title: 'Até logo!',
       text: 'Você saiu da conta com sucesso.',

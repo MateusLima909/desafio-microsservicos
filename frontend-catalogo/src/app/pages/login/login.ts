@@ -1,7 +1,8 @@
 import { Component, signal, Output, EventEmitter, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Auth } from '../services/auth'; 
 import Swal from 'sweetalert2';
+
+import { AuthService } from '../../core/services/auth.service'; 
 
 @Component({
   selector: 'app-login',
@@ -11,7 +12,7 @@ import Swal from 'sweetalert2';
   styleUrl: './login.css'
 })
 export class Login {
-  private authService = inject(Auth);
+  private authService = inject(AuthService);
 
   isLoginMode = signal(true);
   showPassword = signal(false);
@@ -57,7 +58,6 @@ export class Login {
 
     // --- VALIDAÇÕES DO LOGIN ---
     if (this.isLoginMode()) {
-      
       if (!emailVal || !senhaVal) {
         Swal.fire({
           title: 'Campos obrigatórios',

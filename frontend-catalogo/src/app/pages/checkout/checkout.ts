@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { CartService } from '../services/cart';
+
+import { CartService } from '../../core/services/cart.service';
 
 @Component({
   selector: 'app-checkout',

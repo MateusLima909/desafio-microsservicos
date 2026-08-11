@@ -1,7 +1,8 @@
 import { Injectable, signal, computed, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Auth } from './auth'; 
 import Swal from 'sweetalert2'; 
+
+import { AuthService } from './auth.service';
 
 export interface Product {
   id: number;
@@ -20,7 +21,7 @@ export interface Product {
 export class CartService {
 
   private http = inject(HttpClient);
-  private authService = inject(Auth);
+  private authService = inject(AuthService);
 
   products = signal<Product[]>([]);
   
@@ -123,7 +124,6 @@ export class CartService {
       next: (resposta) => {
         console.log('Pedido criado com sucesso!', resposta);
         
-        // Pop-up moderno de Sucesso
         Swal.fire({
           title: 'Pedido Confirmado!',
           text: 'Sua compra foi finalizada e já está sendo processada.',

@@ -1,0 +1,254 @@
+<!-- ==================
+        HERO
+======================= -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-eyebrow">
+      <span class="eyebrow-dot"></span>
+      ÁUDIO PREMIUM
+    </div>
+
+    <h1>
+      O timbre perfeito
+      <span>para o seu som.</span>
+    </h1>
+
+    <p class="hero-description">
+      Descubra guitarras, baterias, pedais e equipamentos
+      profissionais selecionados para músicos que exigem
+      qualidade.
+    </p>
+
+    <div class="hero-buttons">
+      <button
+        type="button"
+        class="primary-btn"
+        (click)="rolarPara('secao-catalogo')"
+      >
+        Explorar catálogo
+        <span>→</span>
+      </button>
+
+      <button
+        type="button"
+        class="secondary-btn"
+        (click)="rolarPara('secao-catalogo')"
+      >
+        Ver destaques
+      </button>
+    </div>
+
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <strong>
+          500<span>+</span>
+        </strong>
+        <small>
+          Produtos
+        </small>
+      </div>
+
+      <div class="hero-stat">
+        <strong>
+          98<span>%</span>
+        </strong>
+        <small>
+          Avaliações positivas
+        </small>
+      </div>
+
+      <div class="hero-stat">
+        <strong>
+          24<span>h</span>
+        </strong>
+        <small>
+          Suporte
+        </small>
+      </div>
+    </div>
+  </div>
+
+<!-- ==================
+       HERO VISUAL
+=================== -->
+  <div class="hero-visual">
+    <div class="hero-glow"></div>
+    <div class="hero-ring"></div>
+
+    @if (filteredProducts().length > 0) {
+      <div class="hero-product">
+        <img
+          [src]="filteredProducts()[0].imageUrl"
+          [alt]="filteredProducts()[0].name"
+        >
+      </div>
+    }
+
+
+    @if (filteredProducts().length > 0) {
+      <div class="hero-floating-card">
+        <span class="floating-label">
+          DESTAQUE
+        </span>
+
+        <strong>
+          {{ filteredProducts()[0].name }}
+        </strong>
+
+        <span class="floating-price">
+          R$ {{ filteredProducts()[0].price }}
+        </span>
+      </div>
+    }
+  </div>
+</section>
+
+<!-- =============================
+       CABEÇALHO DO CATÁLOGO
+============================== -->
+<section class="catalog-header" id="secao-catalogo">
+  <div>
+    <span class="section-eyebrow">
+      NOSSO CATÁLOGO
+    </span>
+
+    <h2>
+      {{ activeCategory() }}
+    </h2>
+
+    <p>
+      {{ filteredProducts().length }}
+      produtos encontrados
+    </p>
+  </div>
+</section>
+
+<!-- ===================
+      CATEGORIAS
+==================== -->
+<section class="categorias">
+  <button
+    type="button"
+    class="categoria"
+    [class.active]="activeCategory() === 'Todos'"
+    (click)="changeCategory('Todos')"
+  >
+    Todos
+  </button>
+
+  <button
+    type="button"
+    class="categoria"
+    [class.active]="activeCategory() === 'Guitarras'"
+    (click)="changeCategory('Guitarras')"
+  >
+    Guitarras
+  </button>
+
+  <button
+    type="button"
+    class="categoria"
+    [class.active]="activeCategory() === 'Baterias'"
+    (click)="changeCategory('Baterias')"
+  >
+    Baterias
+  </button>
+
+  <button
+    type="button"
+    class="categoria"
+    [class.active]="activeCategory() === 'Pedais & Efeitos'"
+    (click)="changeCategory('Pedais & Efeitos')"
+  >
+    Pedais & Efeitos
+  </button>
+
+  <button
+    type="button"
+    class="categoria"
+    [class.active]="activeCategory() === 'Áudio Pro'"
+    (click)="changeCategory('Áudio Pro')"
+  >
+    Áudio Pro
+  </button>
+</section>
+
+<!-- =====================
+      PRODUTOS
+====================== -->
+
+<section class="catalogo">
+  @for (
+    product of filteredProducts();
+    track product.id
+  ) {
+
+    <article class="card">
+      <div class="image-area" [routerLink]="['/product', product.id]">
+        <span class="discount-badge">
+          Novo
+        </span>
+
+        <img [src]="product.imageUrl" [alt]="product.name">
+      </div>
+
+      <div class="card-content">
+        <div class="card-meta">
+          <span class="product-category">
+            {{ product.category }}
+          </span>
+
+          <span class="stock">
+            ✓ {{ product.stock }} disponíveis
+          </span>
+        </div>
+
+        <h2 [routerLink]="['/product', product.id]">
+          {{ product.name }}
+        </h2>
+
+        <p class="descricao">
+          {{ product.description | slice:0:90 }}...
+        </p>
+
+        <div class="bottom">
+          <div class="price-area">
+            @if (product.oldPrice) {
+
+              <span class="old-price">
+                R$ {{ product.oldPrice.toFixed(2) }}
+              </span>
+            }
+
+            <p class="price">
+              R$ {{ product.price.toFixed(2) }}
+            </p>
+          </div>
+
+          <button
+            type="button"
+            class="add-btn"
+            (click)="
+              cartService.addToCart(product);
+              $event.stopPropagation()
+            ">
+            <span>+</span>
+            Adicionar
+          </button>
+        </div>
+      </div>
+    </article>
+  }
+
+  @empty {
+    <div class="empty-catalog">
+      <h3>
+        Nenhum produto encontrado
+      </h3>
+
+      <p>
+        Não encontramos produtos nessa categoria.
+      </p>
+    </div>
+  }
+</section>

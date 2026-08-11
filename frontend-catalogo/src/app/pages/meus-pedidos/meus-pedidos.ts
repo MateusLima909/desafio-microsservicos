@@ -1,6 +1,7 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CartService } from '../services/cart'; 
+
+import { CartService } from '../../core/services/cart.service'; 
 
 @Component({
   selector: 'app-meus-pedidos',
